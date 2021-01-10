@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+    {{ super() }}
+    {% if session %}
+        {% include 'inc/inc_flash.html' %}
+        {% include 'inc/inc_add.html' %}
+    {% else %}
+        {% include 'inc/inc_no_access.html' %}
+    {% endif %}
+{% endblock %}

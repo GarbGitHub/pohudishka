@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+    {{ super() }}
+    {% include 'inc/inc_flash.html' %}
+    <div class="text-center">
+        <form class="form-registration" method="post">
+            <img class="mb-4" src="{{ url_for('static', filename='images/libra.png') }}" alt="" width="72"
+                 height="72">
+            <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+
+            <label for="username" class="sr-only">Login</label>
+            <input type="text" name="username" id="username" class="form-control rounded-top" placeholder="Login" required autofocus>
+
+            <label for="inputEmail" class="sr-only">Email адрес</label>
+            <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+
+            <label for="inputPassword_0" class="sr-only">Пароль</label>
+            <input type="password" name="password0" id="inputPassword_0" class="form-control" placeholder="Password" required autofocus>
+
+            <label for="inputPassword" class="sr-only">Повтор пароля</label>
+            <input type="password" name="password" id="inputPassword" class="form-control rounded-bottom" placeholder="Repeat password" required>
+            <div class="checkbox m-3">
+                <label>
+                    <input type="checkbox" name="regulations" value="remember-me" required> Даю согласие на <a href="">обработку персональный данных</a>, а также соглашаюсь с <a href="">пользовательским соглашением</a>.
+                </label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Отправить</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,70 @@
+.form-sigin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
+
+.form-sigin .checkbox {
+    font-weight: 400;
+}
+
+.form-sigin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-sigin .form-control:focus {
+    z-index: 2;
+}
+
+.form-sigin input {
+    border-radius: 0;
+}
+
+.form-sigin input[type="email"] {
+    margin-bottom: -1px;
+}
+
+.form-sigin input[type="password"] {
+    margin-bottom: 10px;
+}
+
+.form-registration {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
+
+.form-registration .checkbox {
+    font-weight: 400;
+}
+
+.form-registration .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-registration .form-control:focus {
+    z-index: 2;
+}
+
+.form-registration input {
+    border-radius: 0;
+}
+
+.form-registration input[type="email"] {
+    margin-bottom: -1px;
+
+}
+
+.form-registration input[type="password"] {
+    margin-bottom: -1px;
+}
