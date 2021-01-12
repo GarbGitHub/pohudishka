@@ -42,6 +42,7 @@ def route_index():
 
 
 def route_add():
+    submenu = [{"name": "Мой вес", "url": "/"}]
     if ('username' in session) and ('user_id' in session):
         pass
     if request.method == 'POST':
@@ -71,6 +72,7 @@ def route_add():
     return render_template('add.html',
                            title='Новая запись',
                            menu=menu,
+                           submenu=submenu,
                            session=check_user_authorization())
 
 
