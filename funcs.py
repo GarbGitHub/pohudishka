@@ -13,21 +13,30 @@ def check_user_authorization():
     return user
 
 
-menu = [{"name": "Главная", "url": "/"},
+menu = [{"name": "Мой вес", "url": "/"},
         {"name": "Добавить запись", "url": "/add/"}]
 
 
 def route_index():
+    submenu = [{"name": "Добавить", "url": "/add/"}]
+    if request.method == 'POST':
+        id_element = request.form['btn_id']  # del
+
+        # если нажата кнопка удалить
+        if id_element.split("_")[1] == 'del':
+            model.remove_from_db(model.UserWeight, id_element.split("_")[0], session['user_id'])
+
     # если пользователь авторизован
     if ('username' in session) and ('user_id' in session):
         list = model.UserWeight.query.filter_by(user_id=session['user_id']).order_by(
             model.UserWeight.created_at.desc()).all()
     else:
-        list = []
+        return redirect(url_for('login'))
 
     return render_template('index.html',
-                           title='Вес',
+                           title='Мой вес',
                            menu=menu,
+                           submenu=submenu,
                            list=list,
                            session=check_user_authorization())
 
@@ -91,8 +100,10 @@ def route_login():
             # создаем ключи в объекте session
             session.permanent = True
             session['username'] = request.form['username']
+            s = request.form['username']
             session['user_id'] = user_id
-            return redirect(url_for('login_username', username=session['username']))
+            flash(f'Вы успешно вошли как {s}!', category='info')
+            return redirect(url_for('index'))
         else:
             flash(f'Не верный логин или пароль', category='danger')
 

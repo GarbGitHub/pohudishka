@@ -1,22 +1,36 @@
-<div class="form-group row mb-3 pt-2 mt-3 shadow bg-white rounded col-sm-8 offset-sm-2">
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th class="border-0" scope="col">Вес</th>
-            <th class="border-0" scope="col">Прогресс</th>
-            <th class="border-0" scope="col">Дата</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for el in list %}
-        <tr>
-            <th scope="row">{{ el.real_weight }}</th>
-            <td>{{ el.real_progress }}</td>
-            <td>{{ el.created_at.strftime("%d.%m.%Y") }}</td>
-        </tr>
-        {% endfor -%}
-        </tbody>
-    </table>
-</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th class="border-0 col-4" scope="col">Дата</th>
+        <th class="border-0 col-4" scope="col">Вес</th>
+        <th class="border-0 col-3" scope="col">Прогресс</th>
+        <th class="border-0 col-1 text-right" scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% set bgcolor = 'table bg-light' %}
+    {% for el in list %}
+    {% if el.real_progress < 0 %}
+    {% set bgcolor = 'table-success' %}
+    {% endif %}
+    {% if el.real_progress > 0 %}
+    {% set bgcolor = 'table-danger' %}
+    {% endif %}
+    <tr class="{{ bgcolor }} border-primary">
+        <td>{{ el.created_at.strftime("%d.%m.%Y") }}</td>
+        <th scope="row">{{ el.real_weight }}</th>
+        <td>{{ el.real_progress }}</td>
+        <th scope="row" class="text-right text-primary">
+            <form method="post">
+                <button type="submit" name="btn_id" class="btn close border-0" value="{{ el.id }}_del" title="Удалить">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </form>
+        </th>
+    </tr>
+    {% endfor -%}
+    </tbody>
+</table>
+
 
 

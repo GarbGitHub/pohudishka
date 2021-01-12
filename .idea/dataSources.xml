@@ -13,5 +13,20 @@
       <auto-close enable="true" />
       <time-zone>Etc/GMT+3</time-zone>
     </data-source>
+    <data-source source="LOCAL" name="PostgreSQL - postgres@localhost" uuid="d0a92fc8-3611-4b78-ae8a-c1f005d72fa5">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <remarks>Дневники веса</remarks>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/weight</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="HEROKU POSTGRESQL" uuid="2cb30145-d635-4d8e-a31e-92cc07c5f19c">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://ec2-52-212-157-46.eu-west-1.compute.amazonaws.com:5432/d34hcn132sqoq2</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

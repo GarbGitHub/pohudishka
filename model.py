@@ -1,4 +1,7 @@
 from datetime import datetime
+
+from flask import flash
+
 from connect_db import db
 
 
@@ -30,3 +33,13 @@ def add_object_to_base(obj):
     """Добавление в базу новых записей"""
     db.session.add(obj)
     db.session.commit()
+
+
+def remove_from_db(name_class, id_element, user_id):
+    """Удаление из базы стен и блоков пользователем"""
+    try:
+        db.session.query(name_class).filter_by(id=id_element, user_id=user_id).delete()
+        db.session.commit()
+        flash(f'Успешно удалено из базы!', category='success')
+    except ValueError:
+        flash(f'Произошла ошибка!', category='success')

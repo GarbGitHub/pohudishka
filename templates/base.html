@@ -6,12 +6,18 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v4.1.1">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
     {% block title -%}
-        {% if title %}
-            <title>Худею- {{ title }}</title>
-        {% else %}
-            <title>Худею</title>
-        {% endif %}
+    {% if title %}
+    <title>Похудышка - {{ title }}</title>
+    {% else %}
+    <title>Похудышка</title>
+    {% endif %}
     {% endblock %}
 
     <!-- Bootstrap core CSS -->
@@ -25,9 +31,9 @@
 <body class="bg-light">
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/">
-        <img src="{{ url_for('static', filename='images/libra.png') }}" width="30" height="30" alt="Блокорасчет"
-             loading="Худею">
-        Худею
+        <img src="{{ url_for('static', filename='images/libra.png') }}" width="30" height="30" alt="Похудышка"
+             loading="Похудышка">
+        Похудышка
     </a>
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,15 +46,15 @@
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
             <div class="sidebar-sticky pt-3">
                 {%- block mainmenu -%}
-                    <ul class="nav flex-column">
-                        {% for m in menu -%}
-                            <li class="nav-item">
-                                <a class="nav-link{% if request.path == m.url %} active{% endif %}"
-                                   href="{{ m.url }}">{{ m.name }}</a>
-                            </li>
+                <ul class="nav flex-column">
+                    {% for m in menu -%}
+                    <li class="nav-item">
+                        <a class="nav-link{% if request.path == m.url %} active{% endif %}"
+                           href="{{ m.url }}">{{ m.name }}</a>
+                    </li>
 
-                        {% endfor -%}
-                    </ul>
+                    {% endfor -%}
+                </ul>
                 {% endblock mainmenu -%}
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                     <span>Профиль</span>
@@ -57,10 +63,10 @@
                     </a>
                 </h6>
                 {% if session %}
-                     <p class="ml-3">
-                         Вы авторизованы как <a href="{{ url_for('login') }}/{{ session }}/">{{ session }}</a></p>
+                <p class="ml-3">
+                    Вы авторизованы как <a href="{{ url_for('login') }}/{{ session }}/">{{ session }}</a></p>
                 {% else %}
-                    <p class="ml-3">Вы не авторизованы<br>
+                <p class="ml-3">Вы не авторизованы<br>
                     <a href="{{ url_for('login') }}">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-box-arrow-in-right"
                              fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -78,24 +84,24 @@
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 {% block content -%}
-                    {% if title -%}
-                        <h1>{{ title }}</h1>
-                    {% else -%}
-                        <h1>Про Flask</h1>
-                    {% endif -%}
-                    {%- block submenu -%}
-                        <div class="btn-toolbar mb-2 mb-md-0">
-                            <div class="btn-group mr-2">
-                                {% for sm in submenu -%}
-                                    <a type="button" class="btn btn-sm btn-warning ml-1"
-                                       href="{{ sm.url }}">{{ sm.name }}</a>
-                                {% endfor -%}
-                            </div>
-                        </div>
-                    {% endblock submenu -%}
+                {% if title -%}
+                <h1 class="text-center">{{ title }}</h1>
+                {% else -%}
+                <h1 class="text-center">Похудышка</h1>
+                {% endif -%}
+                {%- block submenu -%}
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group mr-2">
+                        {% for sm in submenu -%}
+                        <a type="button" class="btn btn-sm btn-warning ml-1"
+                           href="{{ sm.url }}">{{ sm.name }}</a>
+                        {% endfor -%}
                     </div>
+                </div>
+                {% endblock submenu -%}
+            </div>
 
-                {% endblock -%}
+            {% endblock -%}
             <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
         </main>
     </div>
@@ -107,10 +113,10 @@
 <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 </body>
 <script>
-function up(e) {
-  if (e.value.indexOf(".") != '-1') {
-    e.value=e.value.substring(0, e.value.indexOf(".") + 3);
-  }
-}
+    function up(e) {
+        if (e.value.indexOf(".") != '-1') {
+            e.value = e.value.substring(0, e.value.indexOf(".") + 3);
+        }
+    }
 </script>
 </html>
