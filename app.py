@@ -1,6 +1,5 @@
 from app_init import app
 import funcs
-from datetime import datetime
 
 
 @app.route('/index', methods=["POST", "GET"])
@@ -14,9 +13,19 @@ def add():
     return funcs.route_add()
 
 
-@app.route('/login/<username>/')
+@app.route('/profile/', methods=["GET"])
+def profile():
+    return funcs.route_profile()
+
+
+@app.route('/profile/<username>/')
 def login_username(username):
-    return funcs.route_login_username(username)
+    return funcs.route_profile_username(username)
+
+
+@app.route('/profile/<username>/weight/', methods=["POST", "GET"])
+def weight(username):
+    return funcs.route_weight(username)
 
 
 @app.route("/login/", methods=["POST", "GET"])
