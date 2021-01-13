@@ -46,8 +46,9 @@
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
             <div class="sidebar-sticky pt-3">
                 {%- block mainmenu -%}
+                {% if session %}
                 <ul class="nav flex-column">
-                    {% for m in menu -%}
+                    {% for m in user_menu -%}
                     <li class="nav-item">
                         <a class="nav-link{% if request.path == m.url %} active{% endif %}"
                            href="{{ m.url }}">{{ m.name }}</a>
@@ -55,16 +56,10 @@
 
                     {% endfor -%}
                 </ul>
-                {% endblock mainmenu -%}
-                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>Профиль</span>
-                    <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
-                        <span data-feather="plus-circle"></span>
-                    </a>
-                </h6>
-                {% if session %}
                 <p class="ml-3">
-                    Вы авторизованы как <a href="{{ url_for('login') }}/{{ session }}/">{{ session }}</a></p>
+                    Вы авторизованы как <a href="/profile/{{ session }}/">{{ session }}</a><br>
+                    <a href="/logout">выйти</a>
+                </p>
                 {% else %}
                 <p class="ml-3">Вы не авторизованы<br>
                     <a href="{{ url_for('login') }}">
@@ -78,6 +73,15 @@
                         войти</a>
                 </p>
                 {% endif %}
+                <ul class="nav flex-column">
+                    {% for m in menu -%}
+                    <li class="nav-item">
+                        <a class="nav-link{% if request.path == m.url %} active{% endif %}"
+                           href="{{ m.url }}">{{ m.name }}</a>
+                    </li>
+                    {% endfor -%}
+                </ul>
+                {% endblock mainmenu -%}
             </div>
         </nav>
 
