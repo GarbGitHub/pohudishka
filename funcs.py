@@ -1,4 +1,3 @@
-import numpy as np
 from flask import render_template, session, abort, redirect, url_for, request, flash
 from datetime import datetime
 import model
@@ -6,7 +5,6 @@ import modules
 from modules import menu, deleting_files, graph
 import user_authorization
 import user_registration
-import matplotlib.pyplot as plt
 import random
 
 
@@ -44,7 +42,7 @@ def route_index():
             model.UserWeight.created_at.desc()).all()
 
         # создается график
-        modules.graph.create_graph(check_user, list, graph_img_name)
+        modules.graph.create_graph(list, graph_img_name)
 
     else:
         return redirect(url_for('login'))
@@ -59,7 +57,7 @@ def route_index():
                            session=check_user)
 
 
-def route_weight(username):
+def route_weight():
     menu = modules.menu.menu()
     user_menu = modules.menu.user_menu(check_user_authorization())
     submenu = modules.menu.submenu_weight()
@@ -85,7 +83,7 @@ def route_weight(username):
             model.UserWeight.created_at.desc()).all()
 
         # создается график
-        modules.graph.create_graph(check_user, list, graph_img_name)
+        modules.graph.create_graph(list, graph_img_name)
 
     else:
         return redirect(url_for('login'))
