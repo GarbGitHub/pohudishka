@@ -32,26 +32,19 @@ def route_index():
 
     # если пользователь авторизован
     if ('username' in session) and ('user_id' in session):
+        check_user = check_user_authorization()
+        folder = f'static/users/{check_user.lower()}/graph/'
+        graph_img_name = f'static/users/{check_user.lower()}/graph/g-{random.randint(1, 5000)}.png'
+
+        # чистим пользовательскую папку с графиками
+        modules.deleting_files.delete(folder)
+
+        # запрос показателей веса пользователя из БД
         list = model.UserWeight.query.filter_by(user_id=session['user_id']).order_by(
             model.UserWeight.created_at.desc()).all()
 
-        y1_list = []
-        date = []
-
-        for el in reversed(list):
-            date.append(el.created_at.strftime("%d.%m.%Y"))
-            y1_list.append(el.real_weight)
-
-        x_list = (range(0, len(y1_list)))
-
-        plt.xticks(x_list, date)
-        plt.plot(x_list, y1_list, marker='.')
-
-        graph_img_name = f'static/users/{check_user_authorization().lower()}/graph/g-{random.randint(1, 5000)}.png'
-        print(graph_img_name)
-
-        plt.savefig(graph_img_name)
-        plt.show()
+        # создается график
+        modules.graph.create_graph(check_user, list, graph_img_name)
 
     else:
         return redirect(url_for('login'))
@@ -63,7 +56,7 @@ def route_index():
                            submenu=submenu,
                            graph_img_name=graph_img_name,
                            list=list,
-                           session=check_user_authorization())
+                           session=check_user)
 
 
 def route_weight(username):
@@ -97,7 +90,7 @@ def route_weight(username):
     else:
         return redirect(url_for('login'))
 
-    return render_template('index.html',
+    return render_template('weight_user.html',
                            title='Мой вес',
                            menu=menu,
                            user_menu=user_menu,
