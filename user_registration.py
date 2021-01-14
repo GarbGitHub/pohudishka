@@ -21,7 +21,7 @@ def search_bad_symbols_and_username(username):
     if search_bad_symbols_result == 'No':
         for el in bad_symbols:
             if str(username).find(el) != -1:
-                search_bad_symbols_result = f'Ошибка! В Login найден запрещенный символ ({el})'
+                search_bad_symbols_result = f'Ошибка! В поле Login найден запрещенный символ ({el})'
                 break
 
     return search_bad_symbols_result
