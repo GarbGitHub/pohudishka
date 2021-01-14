@@ -1,8 +1,7 @@
 import matplotlib.pyplot as plt
-import random
 
 
-def create_graph(check_user, list, graph_img_name):
+def create_graph(list, graph_img_name):
     y_list = []
     date = []
 
@@ -17,11 +16,9 @@ def create_graph(check_user, list, graph_img_name):
     plt.ylabel('Вес, кг')
     plt.plot(x_list, y_list, marker='.')
     fig = plt.gcf()
-
     fig.patch.set_facecolor('#f8f9fa')
     fig.subplots_adjust(bottom=0.23)
-    # graph_img_name = f'static/users/{check_user.lower()}/graph/g-{random.randint(1, 5000)}.png'
     print(graph_img_name)
 
     plt.savefig(graph_img_name, facecolor=fig.get_facecolor(), transparent=True)
-    plt.show()
+    # plt.show()
