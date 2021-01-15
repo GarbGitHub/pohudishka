@@ -1,8 +1,13 @@
 import os
+import re
 
 from flask import session, redirect, url_for, request, flash
 import hashlib
 import model
+
+
+def has_cyrillic(text):
+    return bool(re.search('[а-яА-Я]', text))
 
 
 def search_bad_symbols_and_username(username):
@@ -13,10 +18,14 @@ def search_bad_symbols_and_username(username):
     bad_symbols = ['&', ' ', '=', '+', '<', '>', ',', '.', '\"', '\'', '?', '!', ':', ';', '/', '\\', '|', '#', '|',
                    '^']
 
-    for el in bad_username:
-        if el == username:
-            search_bad_symbols_result = f'Ошибка! Нельзя использовать {username} - зарезервированное имя!'
-            break
+    if bool(re.search('[а-яА-Я]', username)):
+        search_bad_symbols_result = f'Ошибка! В поле Login нельзя использовать русские буквы'
+
+    if search_bad_symbols_result == 'No':
+        for el in bad_username:
+            if el == username:
+                search_bad_symbols_result = f'Ошибка! Нельзя использовать {username} - зарезервированное имя!'
+                break
 
     if search_bad_symbols_result == 'No':
         for el in bad_symbols:
@@ -58,7 +67,6 @@ def user_registration_and_verification():
         try:
             username = request.form['username']
             if len(username) > 4 \
-                    and len(request.form['email']) > 4 \
                     and len(request.form['password0']) > 4 \
                     and request.form['password0'] == request.form['password']:
                 print('ok')
@@ -97,3 +105,5 @@ def user_registration_and_verification():
             flash('Unicode-объекты должны быть закодированы перед хешированием', 'danger')
         except ValueError:
             flash('Не верный тип данных', 'danger')
+        except FileExistsError:
+            flash('Папка пользователя была создана ранее', 'danger')
