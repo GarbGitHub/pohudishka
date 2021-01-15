@@ -1,3 +1,4 @@
+{% if list %}
 <table class="table">
     <thead>
     <tr>
@@ -31,13 +32,20 @@
     {% endfor -%}
     </tbody>
 </table>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <p class="text-center"><img src="/{{ graph_img_name }}" class="img-fluid" alt="график"></p>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <p class="text-center"><img src="/{{ graph_img_name }}" class="img-fluid" alt="график"></p>
         </div>
     </div>
-
+</div>
+{% else %}
+    <div class="col-10 offset-1 col-sm-6 offset-sm-3 alert alert-info text-center alert-dismissible fade show border border-success" role="alert">
+        У вас пока нет записей, нажмите <a href="{{ url_for('add') }}">добавить</a>, что бы видеть ваш прогресс.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+    </div>
+    <p class="text-center"><a type="button" class="btn btn-sm btn-warning ml-1" href="{{ url_for('add') }}">Добавить</a></p>
+{% endif %}
 
 
