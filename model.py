@@ -37,7 +37,6 @@ class UserWeight(db.Model):
     id = db.Column(db.BigInteger, primary_key=True)
     user_id = db.Column(db.BigInteger, db.ForeignKey('users.id'), nullable=False)
     real_weight = db.Column(db.Float(10), default=0.0)
-    real_progress = db.Column(db.Float(10), default=0.0)
     created_at = db.Column(db.DateTime, default=datetime.now())
 
     def __repr__(self):
