@@ -151,16 +151,8 @@ def route_add():
         pass
     if request.method == 'POST':
         try:
-            progress = model.UserWeight.query.filter_by(user_id=session['user_id']).order_by(
-                model.UserWeight.created_at.desc()).first()
-
-            if progress and progress.real_weight != 0.0:
-                real_progress = float((str(request.form['weight']))) - progress.real_weight
-            else:
-                real_progress = 0.0
             obj = model.UserWeight(user_id=session['user_id'],
                                    real_weight=float((str(request.form['weight']))),
-                                   real_progress=real_progress,
                                    created_at=datetime.now()
                                    )
             model.add_object_to_base(obj)
