@@ -41,7 +41,7 @@ class UserWeight(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now())
 
     def __repr__(self):
-        return '<UserWeight %r>' % self.id
+        return str(self.id)
 
 
 def add_object_to_base(obj):
