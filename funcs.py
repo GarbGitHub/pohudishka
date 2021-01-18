@@ -186,7 +186,7 @@ def route_profile():
 def route_profile_username(username):
     menu = modules.menu.menu()
     user_menu = modules.menu.user_menu(check_user_authorization())
-    submenu = modules.menu.submenu_profile_username()
+    submenu = modules.menu.submenu_profile_username(check_user_authorization())
 
     # если пользователь авторизован
     if 'username' not in session or session['username'] != username:
@@ -198,6 +198,27 @@ def route_profile_username(username):
                            user_menu=user_menu,
                            submenu=submenu,
                            username=username,
+                           session=check_user_authorization())
+
+
+def edit_profile(username):
+    menu = modules.menu.menu()
+    user_menu = modules.menu.user_menu(check_user_authorization())
+    submenu = modules.menu.submenu_profile_username(check_user_authorization())
+
+    # если пользователь авторизован
+    if 'username' not in session or session['username'] != username:
+        return redirect(url_for('login'))
+
+    profile = model.Profiles.query.filter_by(user_id=session['user_id']).first()
+
+    return render_template('edit_profile.html',
+                           title=f'Редактировать профиль - "{username}"',
+                           menu=menu,
+                           user_menu=user_menu,
+                           submenu=submenu,
+                           username=username,
+                           profile=profile,
                            session=check_user_authorization())
 
 
@@ -261,6 +282,35 @@ def rout_registration():
                            user_menu=user_menu,
                            submenu=submenu,
                            session=check_user_authorization())
+
+
+def rout_admin():
+    # если пользователь авторизован
+
+    if ('username' in session) and ('user_id' in session):
+        rang = model.Users.query.with_entities(model.Users.rang).filter_by(id=session['user_id']).first()
+        if rang[0] != 1:
+            return redirect(url_for('profile', username=session['username']))
+
+        else:
+            if request.method == 'POST':
+                pass
+                # start_app_ping = request.form['btn_start_ping']  # del
+                # # если нажата кнопка удалить
+                # if start_app_ping == 'start_ping':
+                #     modules.server_ping.app_ping()
+
+            menu = modules.menu.menu()
+            user_menu = modules.menu.user_menu(check_user_authorization())
+            return render_template('admin.html',
+                                   title='Панель управления',
+                                   menu=menu,
+                                   user_menu=user_menu,
+                                   session=check_user_authorization())
+
+
+    else:
+        return redirect(url_for('index'))
 
 
 def rout_pageNoteFound(error):
