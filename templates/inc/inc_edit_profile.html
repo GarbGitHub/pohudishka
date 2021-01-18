@@ -1,0 +1,47 @@
+<form name="form_add_walls" method="post">
+    <div class="form-group row mb-3 pt-2 mt-3 shadow bg-white rounded col-sm-8 offset-sm-2">
+        <label class="col-2 col-form-label text-lg-right" for="name">Имя</label>
+        <div class="col-10 mb-2">
+            <input type="text" name="name" id="name" class="form-control"
+                   placeholder=""
+                   value="{{ profile['name'] }}">
+            <small id="name_Help" class="form-text text-muted pl-1">Ваше имя.
+                Необязательно.</small>
+        </div>
+    </div>
+    <div class="form-group row mb-3 pt-2 mt-3 shadow bg-white rounded col-sm-8 offset-sm-2">
+        <label class="col-2 col-form-label text-lg-right" for="lastname">Отчество</label>
+        <div class="col-10 mb-2">
+            <input type="text" name="lastname" id="lastname" class="form-control"
+                   placeholder=""
+                   value="{{ profile['lastname'] }}">
+            <small id="lastname_Help" class="form-text text-muted pl-1">Ваше отчество.
+                Необязательно.</small>
+        </div>
+    </div>
+    <div class="form-group row mb-3 pt-2 mt-3 shadow bg-white rounded col-sm-8 offset-sm-2">
+        <label class="col-2 col-form-label text-lg-right" for="surname">Отчество</label>
+        <div class="col-10 mb-2">
+            <input type="text" name="lastname" id="surname" class="form-control"
+                   placeholder=""
+                   value="{{ profile['lastname'] }}">
+            <small id="surname_Help" class="form-text text-muted pl-1">Ваше отчество.
+                Необязательно.</small>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3 pt-2 mt-3 shadow bg-white rounded col-sm-8 offset-sm-2">
+        <label class="col-2 col-form-label text-lg-right" for="surname">Отчество</label>
+        <div class="col-10 mb-2">
+            <input type="date" name="birthday" id="birthday" class="form-control"
+                   placeholder=""
+                   value="{{ profile['birthday'] }}">
+            <small id="birthday_Help" class="form-text text-muted pl-1">Ваше отчество.
+                Необязательно.</small>
+        </div>
+    </div>
+
+    <button type="submit" name="btn_add_walls" class="col-8 btn btn-primary mt-1 offset-2 btn-lg" value="edit_block">
+        Сохранить
+    </button>
+</form>
