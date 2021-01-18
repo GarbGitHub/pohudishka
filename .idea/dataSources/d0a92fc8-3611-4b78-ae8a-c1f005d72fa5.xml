@@ -784,7 +784,7 @@ false YEKT
 false Z
 false Zulu
 </TimeZones>
-      <StartupTime>1610617127</StartupTime>
+      <StartupTime>1610696090</StartupTime>
     </root>
     <database id="2" parent="1" name="postgres">
       <ObjectId>13442</ObjectId>
@@ -794,11 +794,11 @@ false Zulu
     <database id="3" parent="1" name="weight">
       <ObjectId>16394</ObjectId>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>506</IntrospectionStateNumber>
+      <IntrospectionStateNumber>523</IntrospectionStateNumber>
       <Current>1</Current>
       <Relations>sequence|table|16401|16403|1
-sequence|table|16418|16420|1
 sequence|table|16436|16438|1
+sequence|table|16452|16454|1
 </Relations>
     </database>
     <role id="4" parent="1" name="pg_execute_server_program">
@@ -869,7 +869,7 @@ UC/10
 </Acl>
       <StateNumber>287</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>507</IntrospectionStateNumber>
+      <IntrospectionStateNumber>524</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <extension id="18" parent="3" name="plpgsql">
@@ -970,9 +970,9 @@ UC/10
       <Type>index</Type>
     </access-method>
     <sequence id="30" parent="17" name="profiles_user_id_seq">
-      <ObjectId>16418</ObjectId>
+      <ObjectId>16452</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>491</StateNumber>
+      <StateNumber>509</StateNumber>
       <DataType>integer|0s</DataType>
     </sequence>
     <sequence id="31" parent="17" name="user_weight_id_seq">
@@ -988,9 +988,9 @@ UC/10
       <DataType>integer|0s</DataType>
     </sequence>
     <table id="33" parent="17" name="profiles">
-      <ObjectId>16420</ObjectId>
+      <ObjectId>16454</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>491</StateNumber>
+      <StateNumber>509</StateNumber>
     </table>
     <table id="34" parent="17" name="user_weight">
       <ObjectId>16438</ObjectId>
@@ -1006,54 +1006,68 @@ UC/10
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>491</StateNumber>
+      <StateNumber>509</StateNumber>
       <DefaultExpression>nextval(&apos;profiles_user_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>23</TypeId>
     </column>
     <column id="37" parent="33" name="name">
       <Position>2</Position>
-      <DataType>varchar(20)|0s</DataType>
-      <StateNumber>491</StateNumber>
+      <DataType>varchar(30)|0s</DataType>
+      <StateNumber>509</StateNumber>
       <DefaultExpression>NULL::character varying</DefaultExpression>
       <TypeId>1043</TypeId>
     </column>
     <column id="38" parent="33" name="lastname">
       <Position>3</Position>
-      <DataType>varchar(30)|0s</DataType>
-      <StateNumber>491</StateNumber>
+      <DataType>varchar(40)|0s</DataType>
+      <StateNumber>509</StateNumber>
       <DefaultExpression>NULL::character varying</DefaultExpression>
       <TypeId>1043</TypeId>
     </column>
-    <column id="39" parent="33" name="gender">
+    <column id="39" parent="33" name="surname">
       <Position>4</Position>
+      <DataType>varchar(40)|0s</DataType>
+      <StateNumber>509</StateNumber>
+      <DefaultExpression>NULL::character varying</DefaultExpression>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="40" parent="33" name="gender">
+      <Position>5</Position>
       <DataType>char|0s</DataType>
-      <StateNumber>491</StateNumber>
+      <StateNumber>509</StateNumber>
       <DefaultExpression>NULL::bpchar</DefaultExpression>
       <TypeId>1042</TypeId>
     </column>
-    <column id="40" parent="33" name="birthday">
-      <Position>5</Position>
+    <column id="41" parent="33" name="birthday">
+      <Position>6</Position>
       <DataType>date|0s</DataType>
-      <StateNumber>491</StateNumber>
+      <StateNumber>509</StateNumber>
       <TypeId>1082</TypeId>
     </column>
-    <column id="41" parent="33" name="hometown">
-      <Position>6</Position>
+    <column id="42" parent="33" name="hometown">
+      <Position>7</Position>
       <DataType>varchar(40)|0s</DataType>
-      <StateNumber>491</StateNumber>
+      <StateNumber>509</StateNumber>
       <DefaultExpression>NULL::character varying</DefaultExpression>
       <TypeId>1043</TypeId>
     </column>
-    <column id="42" parent="33" name="user_height">
-      <Position>7</Position>
+    <column id="43" parent="33" name="user_height">
+      <Position>8</Position>
       <DataType>double precision|0s</DataType>
-      <StateNumber>491</StateNumber>
+      <StateNumber>509</StateNumber>
       <DefaultExpression>0.0</DefaultExpression>
       <TypeId>701</TypeId>
     </column>
-    <index id="43" parent="33" name="profiles_pkey">
-      <ObjectId>16429</ObjectId>
-      <StateNumber>491</StateNumber>
+    <column id="44" parent="33" name="photo_user">
+      <Position>9</Position>
+      <DataType>varchar(40)|0s</DataType>
+      <StateNumber>509</StateNumber>
+      <DefaultExpression>NULL::character varying</DefaultExpression>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="45" parent="33" name="profiles_pkey">
+      <ObjectId>16465</ObjectId>
+      <StateNumber>509</StateNumber>
       <ColNames>user_id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
@@ -1061,16 +1075,16 @@ UC/10
       <CollationIds>0</CollationIds>
       <ClassIds>1978</ClassIds>
     </index>
-    <key id="44" parent="33" name="profiles_pkey">
-      <ObjectId>16430</ObjectId>
-      <StateNumber>491</StateNumber>
+    <key id="46" parent="33" name="profiles_pkey">
+      <ObjectId>16466</ObjectId>
+      <StateNumber>509</StateNumber>
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>profiles_pkey</UnderlyingIndexName>
     </key>
-    <foreign-key id="45" parent="33" name="profiles_user_id_fkey">
-      <ObjectId>16431</ObjectId>
-      <StateNumber>491</StateNumber>
+    <foreign-key id="47" parent="33" name="profiles_user_id_fkey">
+      <ObjectId>16467</ObjectId>
+      <StateNumber>509</StateNumber>
       <ColNames>user_id</ColNames>
       <RefTableId>16403</RefTableId>
       <RefColPositions>1</RefColPositions>
@@ -1080,7 +1094,7 @@ UC/10
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
     </foreign-key>
-    <column id="46" parent="34" name="id">
+    <column id="48" parent="34" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
@@ -1088,34 +1102,34 @@ UC/10
       <DefaultExpression>nextval(&apos;user_weight_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>23</TypeId>
     </column>
-    <column id="47" parent="34" name="user_id">
+    <column id="49" parent="34" name="user_id">
       <Position>2</Position>
       <DataType>bigint|0s</DataType>
       <StateNumber>492</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="48" parent="34" name="real_weight">
+    <column id="50" parent="34" name="real_weight">
       <Position>3</Position>
       <DataType>real|0s</DataType>
       <StateNumber>492</StateNumber>
       <DefaultExpression>0.0</DefaultExpression>
       <TypeId>700</TypeId>
     </column>
-    <column id="49" parent="34" name="real_progress">
+    <column id="51" parent="34" name="real_progress">
       <Position>4</Position>
       <DataType>real|0s</DataType>
       <StateNumber>492</StateNumber>
       <DefaultExpression>0.0</DefaultExpression>
       <TypeId>700</TypeId>
     </column>
-    <column id="50" parent="34" name="created_at">
+    <column id="52" parent="34" name="created_at">
       <Position>5</Position>
       <DataType>timestamp|0s</DataType>
       <StateNumber>492</StateNumber>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <TypeId>1114</TypeId>
     </column>
-    <index id="51" parent="34" name="user_weight_pkey">
+    <index id="53" parent="34" name="user_weight_pkey">
       <ObjectId>16445</ObjectId>
       <StateNumber>492</StateNumber>
       <ColNames>id</ColNames>
@@ -1125,14 +1139,14 @@ UC/10
       <CollationIds>0</CollationIds>
       <ClassIds>1978</ClassIds>
     </index>
-    <key id="52" parent="34" name="user_weight_pkey">
+    <key id="54" parent="34" name="user_weight_pkey">
       <ObjectId>16446</ObjectId>
       <StateNumber>492</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>user_weight_pkey</UnderlyingIndexName>
     </key>
-    <foreign-key id="53" parent="34" name="user_weight_user_id_fkey">
+    <foreign-key id="55" parent="34" name="user_weight_user_id_fkey">
       <ObjectId>16447</ObjectId>
       <StateNumber>492</StateNumber>
       <ColNames>user_id</ColNames>
@@ -1144,7 +1158,7 @@ UC/10
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
     </foreign-key>
-    <column id="54" parent="35" name="id">
+    <column id="56" parent="35" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
@@ -1152,47 +1166,47 @@ UC/10
       <DefaultExpression>nextval(&apos;users_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>23</TypeId>
     </column>
-    <column id="55" parent="35" name="email">
+    <column id="57" parent="35" name="email">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
       <StateNumber>489</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="56" parent="35" name="username">
+    <column id="58" parent="35" name="username">
       <Position>3</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>489</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="57" parent="35" name="password_hash">
+    <column id="59" parent="35" name="password_hash">
       <Position>4</Position>
       <DataType>varchar(100)|0s</DataType>
       <StateNumber>489</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="58" parent="35" name="is_deleted">
+    <column id="60" parent="35" name="is_deleted">
       <Position>5</Position>
       <DataType>smallint|0s</DataType>
       <StateNumber>489</StateNumber>
       <DefaultExpression>0</DefaultExpression>
       <TypeId>21</TypeId>
     </column>
-    <column id="59" parent="35" name="created_at">
+    <column id="61" parent="35" name="created_at">
       <Position>6</Position>
       <DataType>timestamp|0s</DataType>
       <StateNumber>489</StateNumber>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <TypeId>1114</TypeId>
     </column>
-    <column id="60" parent="35" name="rang">
+    <column id="62" parent="35" name="rang">
       <Position>7</Position>
       <DataType>smallint|0s</DataType>
       <StateNumber>489</StateNumber>
       <DefaultExpression>0</DefaultExpression>
       <TypeId>21</TypeId>
     </column>
-    <index id="61" parent="35" name="users_pkey">
+    <index id="63" parent="35" name="users_pkey">
       <ObjectId>16410</ObjectId>
       <StateNumber>489</StateNumber>
       <ColNames>id</ColNames>
@@ -1202,7 +1216,7 @@ UC/10
       <CollationIds>0</CollationIds>
       <ClassIds>1978</ClassIds>
     </index>
-    <index id="62" parent="35" name="users_email_key">
+    <index id="64" parent="35" name="users_email_key">
       <ObjectId>16412</ObjectId>
       <StateNumber>489</StateNumber>
       <ColNames>email</ColNames>
@@ -1212,7 +1226,7 @@ UC/10
       <CollationNames>default</CollationNames>
       <ClassIds>3126</ClassIds>
     </index>
-    <index id="63" parent="35" name="users_username_key">
+    <index id="65" parent="35" name="users_username_key">
       <ObjectId>16414</ObjectId>
       <StateNumber>489</StateNumber>
       <ColNames>username</ColNames>
@@ -1222,20 +1236,20 @@ UC/10
       <CollationNames>default</CollationNames>
       <ClassIds>3126</ClassIds>
     </index>
-    <key id="64" parent="35" name="users_pkey">
+    <key id="66" parent="35" name="users_pkey">
       <ObjectId>16411</ObjectId>
       <StateNumber>489</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>users_pkey</UnderlyingIndexName>
     </key>
-    <key id="65" parent="35" name="users_email_key">
+    <key id="67" parent="35" name="users_email_key">
       <ObjectId>16413</ObjectId>
       <StateNumber>489</StateNumber>
       <ColNames>email</ColNames>
       <UnderlyingIndexName>users_email_key</UnderlyingIndexName>
     </key>
-    <key id="66" parent="35" name="users_username_key">
+    <key id="68" parent="35" name="users_username_key">
       <ObjectId>16415</ObjectId>
       <StateNumber>489</StateNumber>
       <ColNames>username</ColNames>
