@@ -34,10 +34,11 @@ def submenu_add(user):
     return submenu
 
 
-def submenu_profile_username():
+def submenu_profile_username(user):
     """Меню для раздела Профиль пользователя"""
 
-    submenu = [{"name": "Выйти", "url": "/logout"}]
+    submenu = [{"name": "Редактировать профиль", "url": f"/profile/{user}/edit_profile/"},
+               {"name": "Выйти", "url": "/logout"}]
     return submenu
 
 
