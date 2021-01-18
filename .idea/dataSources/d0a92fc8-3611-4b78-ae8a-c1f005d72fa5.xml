@@ -684,7 +684,7 @@ true Pacific/Easter
 false Pacific/Efate
 false Pacific/Enderbury
 false Pacific/Fakaofo
-true Pacific/Fiji
+false Pacific/Fiji
 false Pacific/Funafuti
 false Pacific/Galapagos
 false Pacific/Gambier
@@ -784,7 +784,7 @@ false YEKT
 false Z
 false Zulu
 </TimeZones>
-      <StartupTime>1610696090</StartupTime>
+      <StartupTime>1610954353</StartupTime>
     </root>
     <database id="2" parent="1" name="postgres">
       <ObjectId>13442</ObjectId>
@@ -794,7 +794,7 @@ false Zulu
     <database id="3" parent="1" name="weight">
       <ObjectId>16394</ObjectId>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>523</IntrospectionStateNumber>
+      <IntrospectionStateNumber>613</IntrospectionStateNumber>
       <Current>1</Current>
       <Relations>sequence|table|16401|16403|1
 sequence|table|16436|16438|1
@@ -869,7 +869,7 @@ UC/10
 </Acl>
       <StateNumber>287</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>524</IntrospectionStateNumber>
+      <IntrospectionStateNumber>614</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <extension id="18" parent="3" name="plpgsql">
@@ -1115,21 +1115,14 @@ UC/10
       <DefaultExpression>0.0</DefaultExpression>
       <TypeId>700</TypeId>
     </column>
-    <column id="51" parent="34" name="real_progress">
-      <Position>4</Position>
-      <DataType>real|0s</DataType>
-      <StateNumber>492</StateNumber>
-      <DefaultExpression>0.0</DefaultExpression>
-      <TypeId>700</TypeId>
-    </column>
-    <column id="52" parent="34" name="created_at">
+    <column id="51" parent="34" name="created_at">
       <Position>5</Position>
       <DataType>timestamp|0s</DataType>
       <StateNumber>492</StateNumber>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <TypeId>1114</TypeId>
     </column>
-    <index id="53" parent="34" name="user_weight_pkey">
+    <index id="52" parent="34" name="user_weight_pkey">
       <ObjectId>16445</ObjectId>
       <StateNumber>492</StateNumber>
       <ColNames>id</ColNames>
@@ -1139,14 +1132,14 @@ UC/10
       <CollationIds>0</CollationIds>
       <ClassIds>1978</ClassIds>
     </index>
-    <key id="54" parent="34" name="user_weight_pkey">
+    <key id="53" parent="34" name="user_weight_pkey">
       <ObjectId>16446</ObjectId>
       <StateNumber>492</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>user_weight_pkey</UnderlyingIndexName>
     </key>
-    <foreign-key id="55" parent="34" name="user_weight_user_id_fkey">
+    <foreign-key id="54" parent="34" name="user_weight_user_id_fkey">
       <ObjectId>16447</ObjectId>
       <StateNumber>492</StateNumber>
       <ColNames>user_id</ColNames>
@@ -1158,7 +1151,7 @@ UC/10
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
     </foreign-key>
-    <column id="56" parent="35" name="id">
+    <column id="55" parent="35" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
@@ -1166,47 +1159,47 @@ UC/10
       <DefaultExpression>nextval(&apos;users_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>23</TypeId>
     </column>
-    <column id="57" parent="35" name="email">
+    <column id="56" parent="35" name="email">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
       <StateNumber>489</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="58" parent="35" name="username">
+    <column id="57" parent="35" name="username">
       <Position>3</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>489</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="59" parent="35" name="password_hash">
+    <column id="58" parent="35" name="password_hash">
       <Position>4</Position>
       <DataType>varchar(100)|0s</DataType>
       <StateNumber>489</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="60" parent="35" name="is_deleted">
+    <column id="59" parent="35" name="is_deleted">
       <Position>5</Position>
       <DataType>smallint|0s</DataType>
       <StateNumber>489</StateNumber>
       <DefaultExpression>0</DefaultExpression>
       <TypeId>21</TypeId>
     </column>
-    <column id="61" parent="35" name="created_at">
+    <column id="60" parent="35" name="created_at">
       <Position>6</Position>
       <DataType>timestamp|0s</DataType>
       <StateNumber>489</StateNumber>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <TypeId>1114</TypeId>
     </column>
-    <column id="62" parent="35" name="rang">
+    <column id="61" parent="35" name="rang">
       <Position>7</Position>
       <DataType>smallint|0s</DataType>
       <StateNumber>489</StateNumber>
       <DefaultExpression>0</DefaultExpression>
       <TypeId>21</TypeId>
     </column>
-    <index id="63" parent="35" name="users_pkey">
+    <index id="62" parent="35" name="users_pkey">
       <ObjectId>16410</ObjectId>
       <StateNumber>489</StateNumber>
       <ColNames>id</ColNames>
@@ -1216,7 +1209,7 @@ UC/10
       <CollationIds>0</CollationIds>
       <ClassIds>1978</ClassIds>
     </index>
-    <index id="64" parent="35" name="users_email_key">
+    <index id="63" parent="35" name="users_email_key">
       <ObjectId>16412</ObjectId>
       <StateNumber>489</StateNumber>
       <ColNames>email</ColNames>
@@ -1226,7 +1219,7 @@ UC/10
       <CollationNames>default</CollationNames>
       <ClassIds>3126</ClassIds>
     </index>
-    <index id="65" parent="35" name="users_username_key">
+    <index id="64" parent="35" name="users_username_key">
       <ObjectId>16414</ObjectId>
       <StateNumber>489</StateNumber>
       <ColNames>username</ColNames>
@@ -1236,20 +1229,20 @@ UC/10
       <CollationNames>default</CollationNames>
       <ClassIds>3126</ClassIds>
     </index>
-    <key id="66" parent="35" name="users_pkey">
+    <key id="65" parent="35" name="users_pkey">
       <ObjectId>16411</ObjectId>
       <StateNumber>489</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>users_pkey</UnderlyingIndexName>
     </key>
-    <key id="67" parent="35" name="users_email_key">
+    <key id="66" parent="35" name="users_email_key">
       <ObjectId>16413</ObjectId>
       <StateNumber>489</StateNumber>
       <ColNames>email</ColNames>
       <UnderlyingIndexName>users_email_key</UnderlyingIndexName>
     </key>
-    <key id="68" parent="35" name="users_username_key">
+    <key id="67" parent="35" name="users_username_key">
       <ObjectId>16415</ObjectId>
       <StateNumber>489</StateNumber>
       <ColNames>username</ColNames>
