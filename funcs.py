@@ -1,4 +1,3 @@
-import numpy as np
 from flask import render_template, session, abort, redirect, url_for, request, flash
 from datetime import datetime
 import model
@@ -6,7 +5,6 @@ import modules
 from modules import menu, deleting_files, graph
 import user_authorization
 import user_registration
-import matplotlib.pyplot as plt
 import random
 
 
@@ -40,26 +38,48 @@ def route_index():
         modules.deleting_files.delete(folder)
 
         # запрос показателей веса пользователя из БД
-        list = model.UserWeight.query.filter_by(user_id=session['user_id']).order_by(
+        data_list_weight = model.UserWeight.query.filter_by(user_id=session['user_id']).order_by(
             model.UserWeight.created_at.desc()).all()
 
-        # создается график
-        modules.graph.create_graph(check_user, list, graph_img_name)
+        # формируем список показателей веса для итерации в шаблоне
+        weight_users, counter = [], 0
+        for el in reversed(data_list_weight):
+            if len(weight_users) > 0:
+                weight_users.insert(0, {'id': el.id,
+                                        'real_weight': el.real_weight,
+                                        'real_progress': el.real_weight - counter,
+                                        'created_at': el.created_at.strftime("%d.%m.%Y")})
+            else:  # если первая запись в списке устанавливаем динамике 0
+                weight_users.insert(0, {'id': el.id,
+                                        'real_weight': el.real_weight,
+                                        'real_progress': 0,
+                                        'created_at': el.created_at.strftime("%d.%m.%Y")})
+            counter = el.real_weight
+
+        date, y_list = [], []
+        if len(weight_users) > 0:
+            for el in reversed(data_list_weight):
+                date.append(el.created_at)
+                y_list.append(el.real_weight)
+
+            # создается график
+            modules.graph.create_graph(graph_img_name, date, y_list)
 
     else:
         return redirect(url_for('login'))
 
-    return render_template('index.html',
+    return render_template('weight_user.html',
                            title='Мой вес',
                            menu=menu,
                            user_menu=user_menu,
                            submenu=submenu,
                            graph_img_name=graph_img_name,
-                           list=list,
+                           data_list_weight=data_list_weight,
+                           weight_users=weight_users,
                            session=check_user)
 
 
-def route_weight(username):
+def route_weight():
     menu = modules.menu.menu()
     user_menu = modules.menu.user_menu(check_user_authorization())
     submenu = modules.menu.submenu_weight()
@@ -81,11 +101,32 @@ def route_weight(username):
         modules.deleting_files.delete(folder)
 
         # запрос показателей веса пользователя из БД
-        list = model.UserWeight.query.filter_by(user_id=session['user_id']).order_by(
+        data_list_weight = model.UserWeight.query.filter_by(user_id=session['user_id']).order_by(
             model.UserWeight.created_at.desc()).all()
 
-        # создается график
-        modules.graph.create_graph(check_user, list, graph_img_name)
+        # формируем список показателей веса для итерации в шаблоне
+        weight_users, counter = [], 0
+        for el in reversed(data_list_weight):
+            if len(weight_users) > 0:
+                weight_users.insert(0, {'id': el.id,
+                                        'real_weight': el.real_weight,
+                                        'real_progress': el.real_weight - counter,
+                                        'created_at': el.created_at.strftime("%d.%m.%Y")})
+            else:  # если первая запись в списке устанавливаем динамике 0
+                weight_users.insert(0, {'id': el.id,
+                                        'real_weight': el.real_weight,
+                                        'real_progress': 0,
+                                        'created_at': el.created_at.strftime("%d.%m.%Y")})
+            counter = el.real_weight
+
+        date, y_list = [], []
+        if len(weight_users) > 0:
+            for el in reversed(data_list_weight):
+                date.append(el.created_at)
+                y_list.append(el.real_weight)
+
+            # создается график
+            modules.graph.create_graph(graph_img_name, date, y_list)
 
     else:
         return redirect(url_for('login'))
@@ -96,7 +137,8 @@ def route_weight(username):
                            user_menu=user_menu,
                            submenu=submenu,
                            graph_img_name=graph_img_name,
-                           list=list,
+                           data_list_weight=data_list_weight,
+                           weight_users=weight_users,
                            session=check_user)
 
 
@@ -109,16 +151,8 @@ def route_add():
         pass
     if request.method == 'POST':
         try:
-            progress = model.UserWeight.query.filter_by(user_id=session['user_id']).order_by(
-                model.UserWeight.created_at.desc()).first()
-
-            if progress and progress.real_weight != 0.0:
-                real_progress = float((str(request.form['weight']))) - progress.real_weight
-            else:
-                real_progress = 0.0
             obj = model.UserWeight(user_id=session['user_id'],
                                    real_weight=float((str(request.form['weight']))),
-                                   real_progress=real_progress,
                                    created_at=datetime.now()
                                    )
             model.add_object_to_base(obj)

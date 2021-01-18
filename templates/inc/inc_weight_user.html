@@ -1,3 +1,4 @@
+{% if weight_users != [] %}
 <table class="table">
     <thead>
     <tr>
@@ -9,7 +10,7 @@
     </thead>
     <tbody>
     {% set bgcolor = 'table bg-light' %}
-    {% for el in list %}
+    {% for el in weight_users %}
     {% if el.real_progress < 0 %}
     {% set bgcolor = 'table-success' %}
     {% endif %}
@@ -17,7 +18,7 @@
     {% set bgcolor = 'table-danger' %}
     {% endif %}
     <tr class="{{ bgcolor }} border-primary">
-        <td>{{ el.created_at.strftime("%d.%m.%Y") }}</td>
+        <td>{{ el.created_at }}</td>
         <th scope="row">{{ el.real_weight }}</th>
         <td>{{ el.real_progress }}</td>
         <th scope="row" class="text-right text-primary">
@@ -31,13 +32,21 @@
     {% endfor -%}
     </tbody>
 </table>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <p class="text-center"><img src="/{{ graph_img_name }}" class="img-fluid" alt="график"></p>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <p class="text-center"><img src="/{{ graph_img_name }}" class="img-fluid" alt="график"></p>
         </div>
     </div>
-
+</div>
+{% else %}
+<div class="col-10 offset-1 col-sm-6 offset-sm-3 alert alert-info text-center alert-dismissible fade show border border-success"
+     role="alert">
+    У вас пока нет записей, нажмите <a href="{{ url_for('add') }}">добавить</a>, что бы видеть ваш прогресс.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span></button>
+</div>
+<p class="text-center"><a type="button" class="btn btn-sm btn-warning ml-1" href="{{ url_for('add') }}">Добавить</a></p>
+{% endif %}
 
 

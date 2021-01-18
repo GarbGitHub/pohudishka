@@ -57,8 +57,8 @@
                     {% endfor -%}
                 </ul>
                 <p class="ml-3">
-                    Вы авторизованы как <a href="/profile/{{ session }}/">{{ session }}</a><br>
-                    <a href="/logout">выйти</a>
+                    Вы авторизованы как <a href="{{ url_for('profile') }}{{ session }}/">{{ session }}</a><br>
+                    <a href="{{ url_for('logout') }}">выйти</a>
                 </p>
                 {% else %}
                 <p class="ml-3">Вы не авторизованы<br>
