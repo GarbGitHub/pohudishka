@@ -28,6 +28,11 @@ def weight(username):
     return funcs.route_weight()
 
 
+@app.route('/profile/<username>/edit_profile/', methods=["POST", "GET"])
+def edit_profile(username):
+    return funcs.edit_profile(username)
+
+
 @app.route("/login/", methods=["POST", "GET"])
 def login():
     return funcs.route_login()
@@ -41,6 +46,11 @@ def logout():
 @app.route('/registration/', methods=['POST', 'GET'])
 def registration():
     return funcs.rout_registration()
+
+
+@app.route('/admin/', methods=['POST', 'GET'])
+def admin():
+    return funcs.rout_admin()
 
 
 @app.errorhandler(404)
