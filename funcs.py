@@ -47,7 +47,7 @@ def route_index():
             if len(weight_users) > 0:
                 weight_users.insert(0, {'id': el.id,
                                         'real_weight': el.real_weight,
-                                        'real_progress': el.real_weight - counter,
+                                        'real_progress': round((el.real_weight - counter), 2),
                                         'created_at': el.created_at.strftime("%d.%m.%Y")})
             else:  # если первая запись в списке устанавливаем динамике 0
                 weight_users.insert(0, {'id': el.id,
@@ -110,7 +110,7 @@ def route_weight():
             if len(weight_users) > 0:
                 weight_users.insert(0, {'id': el.id,
                                         'real_weight': el.real_weight,
-                                        'real_progress': el.real_weight - counter,
+                                        'real_progress': round((el.real_weight - counter), 2),
                                         'created_at': el.created_at.strftime("%d.%m.%Y")})
             else:  # если первая запись в списке устанавливаем динамике 0
                 weight_users.insert(0, {'id': el.id,
@@ -118,7 +118,7 @@ def route_weight():
                                         'real_progress': 0,
                                         'created_at': el.created_at.strftime("%d.%m.%Y")})
             counter = el.real_weight
-
+        print(weight_users)
         date, y_list = [], []
         if len(weight_users) > 0:
             for el in reversed(data_list_weight):
