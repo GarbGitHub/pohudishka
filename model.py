@@ -21,12 +21,13 @@ class Users(db.Model):
 class Profiles(db.Model):
     user_id = db.Column(db.BigInteger, db.ForeignKey('users.id'), nullable=False, primary_key=True)
     name = db.Column(db.String(30), nullable=True)  # Имя
-    lastname = db.Column(db.String(40), nullable=True)  # Отчество
     surname = db.Column(db.String(40), nullable=True)  # Фамилия
     gender = db.Column(db.SmallInteger, nullable=True)
     birthday = db.Column(db.Date, nullable=True)
     hometown = db.Column(db.String(40), nullable=True)
-    user_height = db.Column(db.Float(10), default=0)
+    user_height = db.Column(db.Float(10), default=0)  # Рост
+    user_weight = db.Column(db.Float(10), default=0)  # Вес
+    user_target_weight = db.Column(db.Float (10), default=0)  # Цель
     photo_user = db.Column(db.String(30), nullable=True)
 
     def __repr__(self):
