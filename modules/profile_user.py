@@ -6,11 +6,9 @@ from modules import query_sql
 def profile(user_id):
     # Запрос текущего веса пользователя (c)
     query_real_weight = query_sql.real_weight_user(user_id)
-    print(query_real_weight)
 
     # Запрос данных пользователя
     profile_query = model.Profiles.query.filter_by(user_id=user_id).first()
-    print(profile_query)
     return profile_query, query_real_weight
 
 
@@ -48,12 +46,9 @@ def calculate_imt(user_height, real_weight):
 
     if real_weight is not None:
         if user_height != 0:
-            print(real_weight, user_height)
             imt = real_weight / ((user_height / 100) * (user_height / 100))
-            print(imt)
         else:
             imt = 0
-
         if imt == 0:
             mess, bg_color = '', ''
         elif 0 < imt < 15.99:

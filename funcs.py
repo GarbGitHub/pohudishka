@@ -88,7 +88,6 @@ def route_weight():
     # Запрос целей пользователя (a, b)
     query_target = model.Target.query.filter_by(user_id=session['user_id']).order_by(
         model.Target.created_at.desc()).all()
-    print(query_target)
 
     weight = modules.query_sql.real_weight_user(session['user_id'])
 
@@ -193,7 +192,6 @@ def route_add_target():
         query_target = None
         # Узнаем, есть ли цели
         count_target = db.session.execute(query_sql.count_target(session['user_id'])).fetchone()['count']
-        print('целей', count_target, 'query_real_weight', query_real_weight)
 
         # Если есть цель получим о ней данные
         if count_target > 0:
@@ -271,11 +269,9 @@ def route_profile_username(username):
         # Запрос целей пользователя (a, b)
         query_target = model.Target.query.filter_by(user_id=session['user_id']).order_by(
             model.Target.created_at.desc()).all()
-        print(query_target)
 
         # Индекс массы тела
         imt = modules.profile_user.calculate_imt(profile_query.user_height, query_real_weight)
-        print(imt)
 
         born = None
         age_text = None
