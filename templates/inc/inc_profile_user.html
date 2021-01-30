@@ -1,0 +1,116 @@
+<div class="container-fluid">
+    <div class="main-body">
+
+        <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="{{ profile.photo_user }}" alt=""
+                                 class="rounded-circle" width="150">
+                            <div class="mt-3">
+                                <h4>
+                                    {% if profile['name'] %}
+                                    {{ profile['name'] }} {{ profile['surname'] }}
+                                    {% else %}
+                                    {{ username }}
+                                    {% endif %}
+                                </h4>
+                                <p class="text-secondary mb-1">
+                                    {% if born %}
+                                    {{ born }} {{ age_text }}
+                                    {% endif %}
+                                </p>
+                                <p class="text-muted font-size-sm">
+                                    {% if profile['hometown'] %}
+                                    {{ profile['hometown'] }}
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <p class="text-center p-3 text-secondary">Здесь скоро будут ваши достижения</p>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <h6 class="mb-0">Рост</h6>
+                            </div>
+                            <div class="col-sm-8 text-secondary">
+                                {{ profile.user_height }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <h6 class="mb-0">Текущий вес</h6>
+                            </div>
+                            <div class="col-sm-8 text-secondary">
+                                {{ weight }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-4 col-md-4">
+                                <h6 class="mb-0">Индекс массы тела</h6>
+                            </div>
+                            <div class="col-sm-8 col-md-3 text-secondary ">
+                                <h6 class="material-icons {{ imt.bg_color }}">{{ imt.imt }}</h6>
+                            </div>
+                            <div class="col-sm-12 col-md-5 text-secondary">
+                                <i class="{{ imt.bg_color }}">{{ imt.mess }}</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row gutters-sm">
+                    {% set bgcolor = 'bg-primary' %}
+                    {% for el in target %}
+                    {% set b = el.user_target_weight %}
+                    {% set a = el.start_weight %}
+                    {% set c = weight %}
+                    {% set x = 100 - ((c - b) * 100) // (a - b) %}
+
+                    {% if x > 20 and x < 50 %}
+                    {% set bgcolor = 'bg-info' %}
+                    {% elif x > 50 %}
+                    {% set bgcolor = 'bg-success' %}
+                    {% endif %}
+                    <div class="col-sm-12 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="d-flex align-items-center mb-3">
+                                    <span class="material-icons mr-2">
+                                       Цель создана {{ el.created_at.strftime("%d.%m.%Y") }}</span></h6>
+                                <div class="row">
+                                    <div class="col text-lg-left">
+                                        <h6 class="mb-1">
+                                            <span class="material-icons text-info mr-2">{{ el.start_weight }}</span>
+                                        </h6>
+                                    </div>
+                                    <div class="col text-right">
+                                        <h6 class="mb-1">
+                                            <span class="material-icons text-info mr-2">{{ el.user_target_weight }}</span>
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated {{ bgcolor }}"
+                                         role="progressbar" style="width:{{ x }}%"
+                                         aria-valuenow="{{ x }}"
+                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

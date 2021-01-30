@@ -1,14 +1,14 @@
 <form name="form_add_walls" method="post">
-    <div class="row mb-3 pt-2 mt-3 shadow bg-white rounded col-8 offset-2">
-        <label class="col-2 col-form-label text-lg-right" for="weight">Вес</label>
+    <div class="row mb-3 pt-2 mt-3 shadow bg-white rounded col-12 col-md-8 offset-md-2">
+        <label class="col-2 col-form-label text-lg-right" for="weight">{{ title }}</label>
         <div class="col-10 mb-2">
-            <input type="number" min="0" step="0.01" name="weight" id="weight" class="form-control"
+            <input type="number" min="1" max="300" step="0.01" oninput="up(this)" name="weight" id="weight" class="form-control"
                    placeholder="0.00"
                    required
                    value="">
         </div>
     </div>
-    <button type="submit" name="btn_add" class="col-8 btn btn-primary mt-1 offset-2 btn-lg" value="add">
+    <button type="submit" name="btn_id" class="col-8 btn btn-primary mt-1 offset-2 btn-lg" value="_add">
         Добавить
     </button>
 </form>

@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    {{ super() }}
-    <p>Вы авторизованы как <b>{{ username }}</b>.</p>
-    <p>Для выхода нажмите <a href="{{ url_for('logout') }}">"выйти"</a></p>
-
+{{ super() }}
+{% include 'inc/inc_flash.html' %}
+{% include 'inc/inc_profile_user.html' %}
 {% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+{{ super() }}
+{% if session %}
+{% include 'inc/inc_flash.html' %}
+
+{% if count_target == 0 %}
+{% include 'inc/inc_add.html' %}
+{% else %}
+
+
+{% set bgcolor = 'bg-primary' %}
+{% for el in target %}
+{% set b = el.user_target_weight %}
+{% set a = el.start_weight %}
+{% set c = start_weight %}
+{% set x = 100 - ((c - b) * 100) // (a - b) %}
+
+
+{% if x > 20 and x < 50 %}
+{% set bgcolor = 'bg-info' %}
+{% elif x > 50 %}
+{% set bgcolor = 'bg-success' %}
+{% endif %}
+<div class="col-sm-8 offset-sm-2 alert alert-danger text-center" role="alert">
+    <h5 class="alert-heading text-center">Требуется ваше действие</h5>
+    <p class="text-center">У вас имеется не достигнутая <strong>цель с прогрессом {{ x }}%</strong>, что бы добавить
+        новую цель необходимо удалить старую.
+        Удалить?</p>
+    <div class="col-12 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h6 class="d-flex align-items-center mb-3">
+                                    <span class="material-icons mr-2">
+                                       Цель создана {{ el.created_at.strftime("%d.%m.%Y") }}</span></h6>
+                <div class="row">
+                    <div class="col text-lg-left">
+                        <h6 class="mb-1">
+                            <span class="material-icons text-info mr-2">{{ el.start_weight }}</span>
+                        </h6>
+                    </div>
+                    <div class="col text-right">
+                        <h6 class="mb-1">
+                            <span class="material-icons text-info mr-2">{{ el.user_target_weight }}</span>
+                        </h6>
+                    </div>
+                </div>
+                <div class="progress mb-3">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated {{ bgcolor }}"
+                         role="progressbar" style="width:{{ x }}%"
+                         aria-valuenow="{{ x }}"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="btn-group mr-2">
+        <form name="form_add_target" method="post">
+            <button type="submit" name="btn_id" id="del" class="btn btn-sm btn-danger" value="{{ el.id }}_del">Удалить
+            </button>
+            <button type="submit" name="btn_id" id="leave" class="btn btn-sm btn-primary" value="{{ el.id }}_leave">
+                Оставить
+            </button>
+        </form>
+    </div>
+</div>
+
+
+{% endfor %}
+
+{% endif %}
+{% else %}
+{% include 'inc/inc_no_access.html' %}
+{% endif %}
+{% endblock %}

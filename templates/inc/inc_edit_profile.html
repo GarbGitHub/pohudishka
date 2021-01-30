@@ -1,0 +1,93 @@
+<form name="form_add_walls" method="post">
+    <div class="form-group row mb-3 pt-2 mt-3 shadow bg-white rounded col-sm-8 offset-sm-2">
+        <label class="col-2 col-form-label text-lg-right" for="name">Имя</label>
+        <div class="col-10 mb-2">
+            <input type="text"
+                   name="name"
+                   id="name"
+                   class="form-control"
+                   placeholder=""
+                   required
+                   value="{{ profile['name'] }}">
+            <small id="name_Help" class="form-text text-muted pl-1">Ваше имя.</small>
+        </div>
+    </div>
+    <div class="form-group row mb-3 pt-2 mt-3 shadow bg-white rounded col-sm-8 offset-sm-2">
+        <label class="col-2 col-form-label text-lg-right" for="surname">Фамилия</label>
+        <div class="col-10 mb-2">
+            <input type="text"
+                   name="surname"
+                   id="surname"
+                   class="form-control"
+                   placeholder=""
+                   required
+                   value="{{ profile['surname'] }}">
+            <small id="surname_Help" class="form-text text-muted pl-1">Ваша фамилия.</small>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3 pt-2 mt-3 shadow bg-white rounded col-sm-8 offset-sm-2">
+        <label class="col-2 col-form-label text-lg-right" for="birthday">Дата рождения</label>
+        <div class="col-10 mb-2">
+            <input type="date"
+                   name="birthday"
+                   id="birthday"
+                   class="form-control"
+                   placeholder=""
+                   required
+                   value="{{ profile['birthday'] }}">
+            <small id="birthday_Help" class="form-text text-muted pl-1">День рождения в формате: 22.12.1980</small>
+        </div>
+    </div>
+    <div class="form-group row mb-3 pt-2 mt-3 shadow bg-white rounded col-sm-8 offset-sm-2">
+        <label class="col-2 col-form-label text-lg-right" for="user_height">Рост, cм.</label>
+        <div class="col-10 col-lg-4 mb-2">
+            <input type="number"
+                   min="0"
+                   name="user_height"
+                   id="user_height"
+                   class="form-control"
+                   placeholder=""
+                   required
+                   value="{{ profile['user_height'] }}">
+        </div>
+        <label class="col-2 col-form-label text-lg-right" for="validationDefault04">Пол</label>
+        <div class="col-10 col-lg-4 mb-2">
+            <label class="mb-0">
+                <select name="gender"
+                        class="custom-select"
+                        id="validationDefault04"
+                        required>
+                    {% if profile['gender'] %}
+                    {% if profile['gender'] == 1 %}
+                    <option selected value="0">ж.</option>
+                    <option value="1">м.</option>
+                    {% else %}
+                    <option selected value="1">м.</option>
+                    <option value="0">ж.</option>
+                    {% endif %}
+
+                    {% else %}
+                    <option selected disabled value="">выбор</option>
+                    <option value="0">ж.</option>
+                    <option value="1">м.</option>
+
+                    {% endif %}
+                </select>
+            </label>
+        </div>
+    </div>
+    <div class="form-group row mb-3 pt-2 mt-3 shadow bg-white rounded col-sm-8 offset-sm-2">
+        <label class="col-2 col-form-label text-lg-right" for="hometown">Город</label>
+        <div class="col-10 mb-2">
+            <input type="text" name="hometown" id="hometown"
+                   class="form-control"
+                   placeholder=""
+                   value="{{ profile['hometown'] }}">
+            <small id="hometown_Help" class="form-text text-muted pl-1">Ваш город или населенный пункт.</small>
+        </div>
+    </div>
+    <button type="submit" name="btn_add_walls" class="col-8 btn btn-primary mt-1 offset-2 btn-lg" value="edit_block">
+        Сохранить
+    </button>
+</form>

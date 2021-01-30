@@ -11,7 +11,8 @@ def user_menu(user):
     if user is not None:
         user_menu = [{"name": "Моя страница", "url": f"/profile/{user}/"},
                      {"name": "Мой вес", "url": f"/profile/{user}/weight/"},
-                     {"name": "Добавить запись", "url": "/add/"}]
+                     {"name": "Добавить вес", "url": "/add/"},
+                     {"name": "Добавить цель", "url": "/add_target/"}]
     else:
         user_menu = []
 
@@ -34,10 +35,11 @@ def submenu_add(user):
     return submenu
 
 
-def submenu_profile_username():
+def submenu_profile_username(user):
     """Меню для раздела Профиль пользователя"""
 
-    submenu = [{"name": "Выйти", "url": "/logout"}]
+    submenu = [{"name": "Редактировать профиль", "url": f"/profile/{user}/edit_profile/"},
+               {"name": "Выйти", "url": "/logout"}]
     return submenu
 
 

@@ -92,10 +92,19 @@ def user_registration_and_verification():
                         if result_registration is not None:  # если запись в БД не успешная
                             flash('Ошибка при регистрации', 'danger')
                         else:
-                            os.mkdir(f'static/users/{username.lower()}')
-                            os.mkdir(f'static/users/{username.lower()}/graph')
-                            os.mkdir(f'static/users/{username.lower()}/profile')
-                            flash('Вы успешно зарегистрированы', category='success')
+                            user_id = model.Users.query.with_entities(model.Users.id).filter_by(
+        username=username).first()
+                            create_profile = model.Profiles(
+                                user_id=user_id
+                            )
+                            result_create_profile = model.add_object_to_base(create_profile)
+                            if result_create_profile is not None:  # если запись в БД не успешная
+                                flash('Ошибка при регистрации', 'danger')
+                            else:
+                                os.mkdir(f'static/users/{username.lower()}')
+                                os.mkdir(f'static/users/{username.lower()}/graph')
+                                os.mkdir(f'static/users/{username.lower()}/profile')
+                                flash('Вы успешно зарегистрированы', category='success')
 
                     else:
                         flash(f'Запись ({search_user_result}) уже есть в базе', category='danger')
