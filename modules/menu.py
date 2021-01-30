@@ -11,7 +11,8 @@ def user_menu(user):
     if user is not None:
         user_menu = [{"name": "Моя страница", "url": f"/profile/{user}/"},
                      {"name": "Мой вес", "url": f"/profile/{user}/weight/"},
-                     {"name": "Добавить запись", "url": "/add/"}]
+                     {"name": "Добавить вес", "url": "/add/"},
+                     {"name": "Добавить цель", "url": "/add_target/"}]
     else:
         user_menu = []
 

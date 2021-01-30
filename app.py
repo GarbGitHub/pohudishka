@@ -13,6 +13,11 @@ def add():
     return funcs.route_add()
 
 
+@app.route('/add_target/', methods=["POST", "GET"])
+def add_target():
+    return funcs.route_add_target()
+
+
 @app.route('/profile/', methods=["GET"])
 def profile():
     return funcs.route_profile()

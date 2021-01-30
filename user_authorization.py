@@ -1,5 +1,4 @@
 import hashlib
-
 import model
 
 
@@ -11,17 +10,13 @@ def search_for_matches(us, psw):
     prelist = []
     for el in data:
         if el.username == us:
-            print('найден', el.username, el.id, el.password_hash)
             prelist.append(el.id)
             prelist.append(el.password_hash)
-            print(prelist)
             search = True
             break
 
     if search:
         """Если username есть в БД, сравниваем пароли"""
-        print('Поиск пароля ...')
-        print(hashlib.md5(psw.encode()).hexdigest())
         if prelist[1] == hashlib.md5(psw.encode()).hexdigest():
             user_id = prelist[0]
 

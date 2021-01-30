@@ -1,3 +1,39 @@
+{% if target != [] %}
+{% set bgcolor = 'bg-primary' %}
+{% for el in target %}
+{% set b = el.user_target_weight %}
+{% set a = el.start_weight %}
+{% set c = weight %}
+{% set x = 100 - ((c - b) * 100) // (a - b) %}
+
+{% if x > 20 and x < 50 %}
+{% set bgcolor = 'bg-info' %}
+{% elif x > 50 %}
+{% set bgcolor = 'bg-success' %}
+{% endif %}
+
+
+<div class="row">
+    <div class="col text-lg-left">
+        <h6 class="mb-1">
+            <span class="material-icons text-info mr-2">{{ el.start_weight }}</span>
+        </h6>
+    </div>
+    <div class="col text-right">
+        <h6 class="mb-1">
+            <span class="material-icons text-info mr-2">{{ el.user_target_weight }}</span>
+        </h6>
+    </div>
+</div>
+<div class="progress mb-1" style="height: 5px;">
+    <div class="progress-bar progress-bar-striped progress-bar-animated {{ bgcolor }}"
+         role="progressbar" style="width:{{ x }}%"
+         aria-valuenow="{{ x }}"
+         aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+
+{% endfor %}
+{% endif %}
 {% if weight_users != [] %}
 <table class="table">
     <thead>

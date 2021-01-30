@@ -98,7 +98,7 @@ def user_registration_and_verification():
                                 user_id=user_id
                             )
                             result_create_profile = model.add_object_to_base(create_profile)
-                            if result_create_profile is not None:  # если профиль успешно создан
+                            if result_create_profile is not None:  # если запись в БД не успешная
                                 flash('Ошибка при регистрации', 'danger')
                             else:
                                 os.mkdir(f'static/users/{username.lower()}')
