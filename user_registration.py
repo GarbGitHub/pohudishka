@@ -36,26 +36,40 @@ def search_bad_symbols_and_username(username):
     return search_bad_symbols_result
 
 
-def user_verification_on_the_server(us, em):
+def binary_search(item, array, is_chek):
+    """Бинарный поиск на совпадение username, email"""
+
+    search_user_result = False
+    min_ = 0
+    max_ = len(array) - 1
+    while min_ <= max_:
+        mid = (min_ + max_) // 2
+        guess = array[mid]
+        if not is_chek:
+            guess_txt = guess.username.lower()
+        else:
+            guess_txt = guess.email.lower()
+        if guess_txt == item.lower():
+            search_user_result = item
+            break
+        if guess_txt > item.lower():
+            max_ = mid - 1
+        else:
+            min_ = mid + 1
+    return search_user_result
+
+
+def user_verification_on_the_server(username, email):
     """Поиск на совпадение имени пользователя и email в БД при регистрации пользователя"""
 
-    search_user_result = 'uniq'
-    user = model.Users.query.order_by(model.Users.username, model.Users.email).all()
+    user = model.Users.query.order_by(model.Users.username).all()
+    search_user_result = binary_search(item=username, array=user, is_chek=False)
 
-    for el in user:
-        if el.username.lower() == us.lower():
-            """Если username уже есть в базе - записываем в переменную и прекращаем цикл"""
-
-            search_user_result = us
-            break
-
-    if search_user_result == 'uniq':
+    if not search_user_result:
         """Если в username совпадений нет, осуществляется поиск сравнений по email"""
 
-        for el in user:
-            if el.email.lower() == em.lower():
-                search_user_result = em
-                break
+        user = model.Users.query.order_by(model.Users.email).all()
+        search_user_result = binary_search(item=email, array=user, is_chek=True)
     return search_user_result
 
 
@@ -69,7 +83,6 @@ def user_registration_and_verification():
             if len(username) > 4 \
                     and len(request.form['password0']) > 4 \
                     and request.form['password0'] == request.form['password']:
-                print('ok')
 
                 symbols_and_username_result = search_bad_symbols_and_username(username)
                 if symbols_and_username_result != 'No':
@@ -77,14 +90,13 @@ def user_registration_and_verification():
                 else:
                     search_user_result = user_verification_on_the_server(username, request.form['email'])
 
-                    if search_user_result == 'uniq':  # если username и email уникальные
-                        hash = hashlib.md5(request.form['password0'].encode()).hexdigest()
-                        print(str(hash))
+                    if not search_user_result:  # если username и email уникальные
+                        hash_ = hashlib.md5(request.form['password0'].encode()).hexdigest()
 
                         res = model.Users(
                             username=username,
                             email=request.form['email'],
-                            password_hash=hash
+                            password_hash=hash_
                         )
 
                         result_registration = model.add_object_to_base(res)
@@ -93,7 +105,7 @@ def user_registration_and_verification():
                             flash('Ошибка при регистрации', 'danger')
                         else:
                             user_id = model.Users.query.with_entities(model.Users.id).filter_by(
-        username=username).first()
+                                username=username).first()
                             create_profile = model.Profiles(
                                 user_id=user_id
                             )
