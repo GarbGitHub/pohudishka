@@ -85,9 +85,8 @@ def route_weight():
     user_menu = modules.menu.user_menu(check_user_authorization())
     submenu = modules.menu.submenu_weight()
 
-    # Запрос целей пользователя (a, b)
-    query_target = model.Target.query.filter_by(user_id=session['user_id']).order_by(
-        model.Target.created_at.desc()).all()
+    # Запрос активной ('0') цели пользователя
+    query_target = query_sql.user_targets(user_id=session['user_id'], active='0')
 
     weight = modules.query_sql.real_weight_user(session['user_id'])
 
@@ -193,12 +192,10 @@ def route_add_target():
         # Узнаем, есть ли цели
         count_target = db.session.execute(query_sql.count_target(session['user_id'])).fetchone()['count']
 
-        # Если есть цель получим о ней данные
+        # Если есть цели получим о них данные
         if count_target > 0:
-            # Запрос целей пользователя (a, b)
-            query_target = model.Target.query.filter_by(user_id=session['user_id']).order_by(
-                model.Target.created_at.desc()).all()
-            # print(query_target)
+            # Запрос активной цели пользователя
+            query_target = query_sql.user_targets(user_id=session['user_id'], active='0')
 
         if request.method == 'POST':
             id_element = request.form['btn_id']  # del
@@ -308,9 +305,9 @@ def edit_profile(username):
     if request.method == 'POST':
         gender = int(str(request.form['gender']))
         if gender == 0:
-            photo_user = f'/static/images/users/avatars/v-{random.randint(1,8)}.jpg'
+            photo_user = f'/static/images/users/avatars/v-{random.randint(1, 8)}.jpg'
         elif gender == 1:
-            photo_user = f'/static/images/users/avatars/m-{random.randint(1,8)}.jpg'
+            photo_user = f'/static/images/users/avatars/m-{random.randint(1, 8)}.jpg'
         else:
             photo_user = '/static/images/users/avatars/no_photo.jpg'
 
