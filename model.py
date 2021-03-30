@@ -42,18 +42,20 @@ class UserWeight(db.Model):
 
     def __repr__(self):
         return "[[{id: %r}, {user_id: %r}, {real_weight: %r}, {created_at: '%s'}]]" % (
-        self.id, self.user_id, self.real_weight, self.created_at)
+            self.id, self.user_id, self.real_weight, self.created_at)
 
 
 class Target(db.Model):
     id = db.Column(db.BigInteger, primary_key=True)
     user_id = db.Column(db.BigInteger, db.ForeignKey('users.id'), nullable=False)
+    active = db.Column(db.CHAR, nullable=False, default=0)
     start_weight = db.Column(db.Float(10), default=0.0)
     user_target_weight = db.Column(db.Float(10), nullable=False, default=0.0)
     created_at = db.Column(db.DateTime, default=datetime.now())
 
     def __repr__(self):
-        return "[{id: %r}, {user_id: %r}, {start_weight: %r}]" % (self.id, self.user_id, self.start_weight)
+        return "{'id': %r, 'user_id': %r, 'active': %r, 'start_weight': %r, 'user_target_weight': %r}" % (
+            self.id, self.user_id, self.start_weight, self.user_target_weight, self.active)
 
 
 def add_object_to_base(obj):
