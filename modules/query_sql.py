@@ -19,11 +19,21 @@ def profile_user(user_id):
 
 def count_target(user_id):
     """Количество целей"""
+
     try:
         count = "SELECT COUNT(*) FROM target WHERE user_id=%r" % user_id
         return count
     except:
         print('error')
+
+
+def user_targets(user_id, active) -> list:
+    """Возвращает активные (0) или не активные (1) цели пользователя"""
+
+    status = active if active == '0' else '1'
+    target = model.Target.query.filter_by(user_id=user_id, active=status).order_by(
+        model.Target.created_at.desc()).all()
+    return target
 
 
 def real_weight_user(user_id):
