@@ -156,13 +156,27 @@ def route_add():
     submenu = modules.menu.submenu_add(check_user_authorization())
 
     if ('username' in session) and ('user_id' in session):
+        # Запрос активной ('0') цели пользователя
+        query_target = query_sql.user_targets(user_id=session['user_id'], active='0')
+
         if request.method == 'POST':
             try:
+                real_weight = float((str(request.form['weight'])))
+                # Записываем новый вес пользователя в базу
                 obj = model.UserWeight(user_id=session['user_id'],
-                                       real_weight=float((str(request.form['weight']))),
+                                       real_weight=real_weight,
                                        created_at=datetime.now()
                                        )
                 model.add_object_to_base(obj)
+
+                # Обновляем статус цели, если она есть и цель достигнута
+                if len(query_target) > 0 and real_weight <= query_target[0].user_target_weight:
+                    obj_target = model.Target(
+                        user_id=session['user_id'],
+                        active='1',
+                        finish_at=datetime.now()
+                    )
+                    model.edit_target_status(obj_target)
 
                 flash(f'Запись успешно добавлена', category='success')
                 return redirect(url_for('weight', username=session['username']))
@@ -189,8 +203,10 @@ def route_add_target():
     if ('username' in session) and ('user_id' in session):
         query_real_weight = modules.query_sql.real_weight_user(session['user_id'])
         query_target = None
-        # Узнаем, есть ли цели
-        count_target = db.session.execute(query_sql.count_target(session['user_id'])).fetchone()['count']
+
+        # Узнаем, есть ли активные цели status='0'
+        count_target = db.session.execute(query_sql.count_target(user_id=session['user_id'], status='0')).fetchone()[
+            'count']
 
         # Если есть цели получим о них данные
         if count_target > 0:
@@ -264,8 +280,11 @@ def route_profile_username(username):
         profile_query, query_real_weight = modules.profile_user.profile(session['user_id'])
 
         # Запрос целей пользователя (a, b)
-        query_target = model.Target.query.filter_by(user_id=session['user_id']).order_by(
-            model.Target.created_at.desc()).all()
+        # query_target = model.Target.query.filter_by(user_id=session['user_id']).order_by(
+        #     model.Target.created_at.desc()).all()
+
+        # Запрос активной ('0') цели пользователя
+        query_target = query_sql.user_targets(user_id=session['user_id'], active='0')
 
         # Индекс массы тела
         imt = modules.profile_user.calculate_imt(profile_query.user_height, query_real_weight)
@@ -399,7 +418,7 @@ def rout_admin():
     # если пользователь авторизован
 
     if ('username' in session) and ('user_id' in session):
-        rang = model.Users.query.with_entities(model.Users.rang).filter_by(id=session['user_id']).first()
+        rang = model.Users.query.with_entities(model.Users.rang).filter_by(id=session['user_id']).first_or_404()
         if rang[0] != 1:
             return redirect(url_for('profile', username=session['username']))
 
