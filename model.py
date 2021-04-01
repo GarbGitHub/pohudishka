@@ -41,7 +41,7 @@ class UserWeight(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now())
 
     def __repr__(self):
-        return "[[{id: %r}, {user_id: %r}, {real_weight: %r}, {created_at: '%s'}]]" % (
+        return "'id': %r, 'user_id': %r, 'real_weight': %r, 'created_at': %s" % (
             self.id, self.user_id, self.real_weight, self.created_at)
 
 
@@ -52,10 +52,13 @@ class Target(db.Model):
     start_weight = db.Column(db.Float(10), default=0.0)
     user_target_weight = db.Column(db.Float(10), nullable=False, default=0.0)
     created_at = db.Column(db.DateTime, default=datetime.now())
+    finish_at = db.Column(db.DateTime, nullable=True)
 
     def __repr__(self):
-        return "{'id': %r, 'user_id': %r, 'active': %r, 'start_weight': %r, 'user_target_weight': %r}" % (
-            self.id, self.user_id, self.start_weight, self.user_target_weight, self.active)
+        return "'id': %r, 'user_id': %r, 'active': %r, 'start_weight': %r, 'user_target_weight': %r, 'created_at': " \
+               "%s, 'finish_at': %s" % (
+                   self.id, self.user_id, self.active, self.start_weight, self.user_target_weight, self.created_at,
+                   self.finish_at)
 
 
 def add_object_to_base(obj):
@@ -80,6 +83,19 @@ def edit_object_to_base(obj_profile):
         flash(f'Профиль успешно обновлен!', category='success')
     except:
         flash(f'Произошла ошибка! Error in def update_state', category='danger')
+
+
+def edit_target_status(obj_target):
+    """Редактирование статусов целей пользователя"""
+    print('obj_target', obj_target)
+    try:
+        target = db.session.query(Target).filter(Target.user_id == obj_target.user_id, Target.active == '0').first()
+        target.active = obj_target.active
+        target.finish_at = obj_target.finish_at
+        db.session.commit()
+        return flash(f'Поздравляем! Вы достигли поставленной цели. Так держать!', category='success')
+    except:
+        return flash(f'При обновлении статуса цели произошла ошибка', category='danger')
 
 
 def remove_from_db(name_class, id_element, user_id):
