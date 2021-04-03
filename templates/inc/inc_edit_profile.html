@@ -59,12 +59,13 @@
                         id="validationDefault04"
                         required>
                     {% if profile['gender'] %}
-                    {% if profile['gender'] == 1 %}
-                    <option selected value="0">ж.</option>
-                    <option value="1">м.</option>
-                    {% else %}
+
+                    {% if profile['gender'] == '1' %}
                     <option selected value="1">м.</option>
                     <option value="0">ж.</option>
+                    {% else %}
+                    <option selected value="0">ж.</option>
+                    <option value="1">м.</option>
                     {% endif %}
 
                     {% else %}
