@@ -29,8 +29,9 @@ def login_username(username):
 
 
 @app.route('/profile/<username>/weight/', methods=["POST", "GET"])
-def weight(username):
-    return funcs.route_weight()
+@app.route('/profile/<username>/weight/<int:page>/', methods=['GET', 'POST'])
+def weight(username, page=1):
+    return funcs.route_weight(page)
 
 
 @app.route('/profile/<username>/edit_profile/', methods=["POST", "GET"])

@@ -2,11 +2,12 @@ from flask import render_template, session, redirect, url_for, request, flash
 from datetime import datetime
 import model
 import modules
-from modules import menu, deleting_files, graph, query_sql, profile_user
+from modules import menu, deleting_files, graph, query_sql, profile_user, page_pagination
 import user_authorization
 import user_registration
 import random
 from connect_db import db
+from config import WEIGHT_PAGE
 
 
 def check_user_authorization():
@@ -80,16 +81,10 @@ def route_index():
                            session=check_user)
 
 
-def route_weight():
+def route_weight(page):
     menu = modules.menu.menu()
     user_menu = modules.menu.user_menu(check_user_authorization())
     submenu = modules.menu.submenu_weight()
-
-    # Запрос целей пользователя (a, b)
-    query_target = model.Target.query.filter_by(user_id=session['user_id']).order_by(
-        model.Target.created_at.desc()).all()
-
-    weight = modules.query_sql.real_weight_user(session['user_id'])
 
     if request.method == 'POST':
         id_element = request.form['btn_id']  # del
@@ -97,19 +92,30 @@ def route_weight():
         # если нажата кнопка удалить
         if id_element.split("_")[1] == 'del':
             model.remove_from_db(model.UserWeight, id_element.split("_")[0], session['user_id'])
+            return redirect(url_for('weight', username=session['username']))
 
     # если пользователь авторизован
     if ('username' in session) and ('user_id' in session):
         check_user = check_user_authorization()
         folder = f'static/users/{check_user.lower()}/graph/'
         graph_img_name = f'static/users/{check_user.lower()}/graph/g-{random.randint(1, 5000)}.png'
-
         # чистим пользовательскую папку с графиками
         modules.deleting_files.delete(folder)
 
+        # Запрос активной ('0') цели пользователя
+        query_target = query_sql.user_targets(user_id=session['user_id'], active='0')
+
+        weight = modules.query_sql.real_weight_user(session['user_id'])
+
+        # Количество записей для пагинации
+        number_lines_user_weight = query_sql.row_count_table(name_class=model.UserWeight, user_id=session['user_id'])
+        pagination = None
+        if number_lines_user_weight > 0 and number_lines_user_weight % WEIGHT_PAGE != 0:
+            pagination = page_pagination.links_pagination_generation(number_lines_user_weight, WEIGHT_PAGE, page)
+
         # запрос показателей веса пользователя из БД
         data_list_weight = model.UserWeight.query.filter_by(user_id=session['user_id']).order_by(
-            model.UserWeight.created_at.desc()).all()
+            model.UserWeight.created_at.desc()).paginate(page, WEIGHT_PAGE, False).items
 
         # формируем список показателей веса для итерации в шаблоне
         weight_users, counter = [], 0
@@ -125,16 +131,16 @@ def route_weight():
                                         'real_progress': 0,
                                         'created_at': el.created_at.strftime("%d.%m.%Y")})
             counter = el.real_weight
-        print(weight_users)
+
         date, y_list = [], []
+        title_date = str(datetime.now().strftime("%d.%m.%Y"))
         if len(weight_users) > 0:
             for el in reversed(data_list_weight):
                 date.append(el.created_at)
                 y_list.append(el.real_weight)
 
             # создается график
-            modules.graph.create_graph(graph_img_name, date, y_list)
-
+            title_date = modules.graph.create_graph(graph_img_name, date, y_list)
     else:
         return redirect(url_for('login'))
 
@@ -144,26 +150,44 @@ def route_weight():
                            user_menu=user_menu,
                            submenu=submenu,
                            graph_img_name=graph_img_name,
-                           data_list_weight=data_list_weight,
+                           # data_list_weight=data_list_weight,
                            weight=weight,
                            target=query_target,
                            weight_users=weight_users,
+                           pagination=pagination,
+                           title_date=title_date,
                            session=check_user)
 
 
 def route_add():
+    """Добавить вес пользователя"""
     menu = modules.menu.menu()
     user_menu = modules.menu.user_menu(check_user_authorization())
     submenu = modules.menu.submenu_add(check_user_authorization())
 
     if ('username' in session) and ('user_id' in session):
+        # Запрос активной ('0') цели пользователя
+        query_target = query_sql.user_targets(user_id=session['user_id'], active='0')
+        print(query_target)
         if request.method == 'POST':
             try:
+                real_weight = float((str(request.form['weight'])))
+                print(real_weight, type(real_weight))
+                # Записываем новый вес пользователя в базу
                 obj = model.UserWeight(user_id=session['user_id'],
-                                       real_weight=float((str(request.form['weight']))),
+                                       real_weight=real_weight,
                                        created_at=datetime.now()
                                        )
                 model.add_object_to_base(obj)
+
+                # Обновляем статус цели, если она есть и цель достигнута
+                if len(query_target) > 0 and real_weight <= query_target[0].user_target_weight:
+                    obj_target = model.Target(
+                        user_id=session['user_id'],
+                        active='1',
+                        finish_at=datetime.now()
+                    )
+                    model.edit_target_status(obj_target)
 
                 flash(f'Запись успешно добавлена', category='success')
                 return redirect(url_for('weight', username=session['username']))
@@ -190,15 +214,15 @@ def route_add_target():
     if ('username' in session) and ('user_id' in session):
         query_real_weight = modules.query_sql.real_weight_user(session['user_id'])
         query_target = None
-        # Узнаем, есть ли цели
-        count_target = db.session.execute(query_sql.count_target(session['user_id'])).fetchone()['count']
 
-        # Если есть цель получим о ней данные
+        # Узнаем, есть ли активные цели status='0'
+        count_target = db.session.execute(query_sql.count_target(user_id=session['user_id'], status='0')).fetchone()[
+            'count']
+
+        # Если есть цели получим о них данные
         if count_target > 0:
-            # Запрос целей пользователя (a, b)
-            query_target = model.Target.query.filter_by(user_id=session['user_id']).order_by(
-                model.Target.created_at.desc()).all()
-            # print(query_target)
+            # Запрос активной цели пользователя
+            query_target = query_sql.user_targets(user_id=session['user_id'], active='0')
 
         if request.method == 'POST':
             id_element = request.form['btn_id']  # del
@@ -266,9 +290,8 @@ def route_profile_username(username):
         # Профиль и текущий вес пользователя
         profile_query, query_real_weight = modules.profile_user.profile(session['user_id'])
 
-        # Запрос целей пользователя (a, b)
-        query_target = model.Target.query.filter_by(user_id=session['user_id']).order_by(
-            model.Target.created_at.desc()).all()
+        # Запрос активной ('0') цели пользователя
+        query_target = query_sql.user_targets(user_id=session['user_id'], active='0')
 
         # Индекс массы тела
         imt = modules.profile_user.calculate_imt(profile_query.user_height, query_real_weight)
@@ -308,9 +331,9 @@ def edit_profile(username):
     if request.method == 'POST':
         gender = int(str(request.form['gender']))
         if gender == 0:
-            photo_user = f'/static/images/users/avatars/v-{random.randint(1,8)}.jpg'
+            photo_user = f'/static/images/users/avatars/v-{random.randint(1, 8)}.jpg'
         elif gender == 1:
-            photo_user = f'/static/images/users/avatars/m-{random.randint(1,8)}.jpg'
+            photo_user = f'/static/images/users/avatars/m-{random.randint(1, 8)}.jpg'
         else:
             photo_user = '/static/images/users/avatars/no_photo.jpg'
 
@@ -345,7 +368,6 @@ def route_login():
         user_id = user_authorization.search_for_matches(username, psw)
 
         if user_id != 0:
-
             # создаем ключи в объекте session
             session.permanent = True
             session['username'] = request.form['username']
@@ -402,7 +424,7 @@ def rout_admin():
     # если пользователь авторизован
 
     if ('username' in session) and ('user_id' in session):
-        rang = model.Users.query.with_entities(model.Users.rang).filter_by(id=session['user_id']).first()
+        rang = model.Users.query.with_entities(model.Users.rang).filter_by(id=session['user_id']).first_or_404()
         if rang[0] != 1:
             return redirect(url_for('profile', username=session['username']))
 

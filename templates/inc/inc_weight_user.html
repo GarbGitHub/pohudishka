@@ -5,47 +5,54 @@
 {% set a = el.start_weight %}
 {% set c = weight %}
 {% set x = 100 - ((c - b) * 100) // (a - b) %}
-
+{% set z = x * 2 %}
 {% if x > 20 and x < 50 %}
 {% set bgcolor = 'bg-info' %}
 {% elif x > 50 %}
 {% set bgcolor = 'bg-success' %}
 {% endif %}
-
-
-<div class="row">
-    <div class="col text-lg-left">
-        <h6 class="mb-1">
-            <span class="material-icons text-info mr-2">{{ el.start_weight }}</span>
-        </h6>
+<div class="cont-box mb-0">
+    <div class="block-0">
+        <h6 class="mb-1"><span class="material-icons text-info mr-2">{{ el.start_weight }}</span></h6>
     </div>
-    <div class="col text-right">
+    <div class="block-1">
+        <div class="cont-box__cont">
+            <i class="fas fa-running" style="margin-left: {{ x }}%"></i>
+        </div>
+        <div class="progress mb-0" style="height: 5px;">
+            <div class="progress-bar progress-bar-striped progress-bar-animated {{ bgcolor }}"
+                 role="progressbar" style="width:{{ x }}%"
+                 aria-valuenow="{{ x }}"
+                 aria-valuemin="0" aria-valuemax="100">
+            </div>
+        </div>
+    </div>
+    <div class="block-2">
         <h6 class="mb-1">
+            <span class="small text-info">моя цель</span>
             <span class="material-icons text-info mr-2">{{ el.user_target_weight }}</span>
         </h6>
     </div>
 </div>
-<div class="progress mb-1" style="height: 5px;">
-    <div class="progress-bar progress-bar-striped progress-bar-animated {{ bgcolor }}"
-         role="progressbar" style="width:{{ x }}%"
-         aria-valuenow="{{ x }}"
-         aria-valuemin="0" aria-valuemax="100"></div>
-</div>
-
 {% endfor %}
 {% endif %}
 {% if weight_users != [] %}
 <table class="table">
-    <thead>
+    <thead class="bg-header">
+    {% if title_date %}
     <tr>
-        <th class="border-0 col-4" scope="col">Дата</th>
-        <th class="border-0 col-4" scope="col">Вес</th>
-        <th class="border-0 col-3" scope="col">Прогресс</th>
-        <th class="border-0 col-1 text-right" scope="col"></th>
+        <th class="border-0 text-center pt-2 pb-0" scope="col" colspan="4">{{ title_date }}</th>
+    </tr>
+    {% endif %}
+    <tr>
+        <th class="border-0 col-4 pt-0" scope="col">Дата</th>
+        <th class="border-0 col-4 pt-0" scope="col">Вес</th>
+        <th class="border-0 col-3 pt-0" scope="col">Прогресс</th>
+        <th class="border-0 col-1 pt-0 text-right" scope="col"></th>
     </tr>
     </thead>
     <tbody>
-    {% set bgcolor = 'table bg-light' %}
+    {% set bgcolor = 'bg-light' %}
     {% for el in weight_users %}
     {% if el.real_progress < 0 %}
     {% set bgcolor = 'table-success' %}
@@ -53,7 +60,7 @@
     {% if el.real_progress > 0 %}
     {% set bgcolor = 'table-danger' %}
     {% endif %}
-    <tr class="{{ bgcolor }} border-primary">
+    <tr class="{{ bgcolor }} border-secondary">
         <td>{{ el.created_at }}</td>
         <th scope="row">{{ el.real_weight }}</th>
         <td>{{ el.real_progress }}</td>
@@ -68,6 +75,17 @@
     {% endfor -%}
     </tbody>
 </table>
+{% if pagination %}
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        {% for linc in pagination %}
+        <li class="{{ linc.link_class }}"><a class="page-link" href="/profile/{{ session }}/weight/{{ linc.page_id }}/">{{
+            linc.page_id }}</a>
+        </li>
+        {% endfor -%}
+    </ul>
+</nav>
+{% endif %}
 <div class="container">
     <div class="row">
         <div class="col">
@@ -84,5 +102,3 @@
 </div>
 <p class="text-center"><a type="button" class="btn btn-sm btn-warning ml-1" href="{{ url_for('add') }}">Добавить</a></p>
 {% endif %}
-
-
