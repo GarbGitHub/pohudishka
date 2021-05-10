@@ -13,3 +13,4 @@ def create_graph(graph_img_name, date, y_list):
     fig.patch.set_facecolor('#f8f9fa')
     fig.subplots_adjust(bottom=0.23)
     plt.savefig(graph_img_name, facecolor=fig.get_facecolor(), transparent=True)
+    return f'{date[0].strftime("%d.%m.%Y")} - {date[len(date) - 1].strftime("%d.%m.%Y")}'
