@@ -99,7 +99,7 @@ def edit_target_status(obj_target):
 
 
 def remove_from_db(name_class, id_element, user_id):
-    """Удаление из базы стен и блоков пользователем"""
+    """Удаление из базы"""
     try:
         db.session.query(name_class).filter_by(id=id_element, user_id=user_id).delete()
         db.session.commit()
