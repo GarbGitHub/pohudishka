@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     {{ super() }}
-    {% if session %}
+    {% if username %}
         {% include 'inc/inc_flash.html' %}
         {% include 'inc/inc_weight_user.html' %}
     {% else %}

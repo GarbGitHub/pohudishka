@@ -46,7 +46,7 @@
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
             <div class="sidebar-sticky pt-3">
                 {%- block mainmenu -%}
-                {% if session %}
+                {% if username %}
                 <ul class="nav flex-column">
                     {% for m in user_menu -%}
                     <li class="nav-item">
@@ -57,7 +57,7 @@
                     {% endfor -%}
                 </ul>
                 <p class="ml-3">
-                    Вы авторизованы как <a href="{{ url_for('profile') }}{{ session }}/">{{ session }}</a><br>
+                    Вы авторизованы как <a href="{{ url_for('profile') }}{{ username }}/">{{ username }}</a><br>
                     <a href="{{ url_for('logout') }}">выйти</a>
                 </p>
                 {% else %}
