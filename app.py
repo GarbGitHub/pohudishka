@@ -60,8 +60,8 @@ def admin():
 
 
 @app.errorhandler(404)
-def pageNoteFound(error):
-    return funcs.rout_pageNoteFound(error)
+def page_note_found(error):
+    return funcs.page_note_found(error)
 
 
 if __name__ == '__main__':  # Запуск сервера на локальном устройстве
