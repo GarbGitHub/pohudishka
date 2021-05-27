@@ -75,8 +75,6 @@ def user_verification_on_the_server(username, email):
 
 def user_registration_and_verification():
     """Валидация формы регистрации пользователя"""
-    if 'username' in session:
-        return redirect(url_for('login_username', username=session['username']))
     if request.method == "POST":
         try:
             username = request.form['username']
@@ -117,11 +115,13 @@ def user_registration_and_verification():
                                 os.mkdir(f'static/users/{username.lower()}/graph')
                                 os.mkdir(f'static/users/{username.lower()}/profile')
                                 flash('Вы успешно зарегистрированы', category='success')
+                                return True
 
                     else:
                         flash(f'Запись ({search_user_result}) уже есть в базе', category='danger')
             else:
                 flash('Ошибка ввода данных', 'danger')
+
         except TypeError:
             flash('Unicode-объекты должны быть закодированы перед хешированием', 'danger')
         except ValueError:

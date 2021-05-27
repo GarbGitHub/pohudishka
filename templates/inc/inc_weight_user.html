@@ -79,7 +79,7 @@
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
         {% for linc in pagination %}
-        <li class="{{ linc.link_class }}"><a class="page-link" href="/profile/{{ session }}/weight/{{ linc.page_id }}/">{{
+        <li class="{{ linc.link_class }}"><a class="page-link" href="/profile/{{ username }}/weight/{{ linc.page_id }}/">{{
             linc.page_id }}</a>
         </li>
         {% endfor -%}
